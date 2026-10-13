@@ -48,10 +48,8 @@ export function OrganizationProvider({ children }: { children: ReactNode }) {
               ...local,
               orgId: remote.orgId,
               slug: remote.slug,
-              name: remote.name,
-              shortName: remote.shortName || local.shortName,
             }
-          : genericBrand(remote.orgId, remote.slug, remote.name, remote.shortName);
+          : genericBrand(remote.orgId, remote.slug, remote.orgId);
         setState({ organization, loading: false, error: null });
       } catch {
         if (!active) return;

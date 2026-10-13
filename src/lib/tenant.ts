@@ -22,17 +22,7 @@ export const resolveOrganization = async (slugValue: string): Promise<Organizati
   const orgId = slugMapSnapshot.data()?.[slug];
   if (typeof orgId !== 'string' || !orgId) return null;
 
-  const profileSnapshot = await getDoc(doc(db, 'organizations', orgId, 'public', 'profile'));
-  if (!profileSnapshot.exists() || profileSnapshot.data().active !== true) return null;
-
-  const profile = profileSnapshot.data();
-  return {
-    orgId,
-    slug,
-    name: String(profile.name || orgId),
-    shortName: String(profile.shortName || profile.name || orgId),
-    active: true,
-  };
+  return { orgId, slug };
 };
 
 export const tenantCollectionPath = (orgId: string, name: string) =>

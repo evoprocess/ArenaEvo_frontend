@@ -25,9 +25,6 @@ export interface OrganizationBrand {
 export interface OrganizationLookup {
   orgId: string;
   slug: string;
-  name: string;
-  shortName?: string;
-  active: boolean;
 }
 
 export interface AdminOrganization {
