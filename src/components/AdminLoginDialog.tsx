@@ -54,7 +54,7 @@ export function AdminLoginDialog({ open, onClose }: Props) {
       <h2>Acesso da plataforma</h2>
       <p className="dialog-copy">Entre com uma conta autorizada pela administração.</p>
       <form onSubmit={submit}>
-        <label>Usuário ou e-mail<input autoFocus autoComplete="username" value={identifier} onChange={(event) => setIdentifier(event.target.value)} placeholder="thiago.barbosa" required /></label>
+        <label>Usuário ou e-mail<input autoFocus autoComplete="username" value={identifier} onChange={(event) => setIdentifier(event.target.value)} placeholder="Seu Login" required /></label>
         <label>Senha<input type="password" autoComplete="current-password" value={password} onChange={(event) => setPassword(event.target.value)} placeholder="Sua senha" required /></label>
         {error && <div className="form-error" role="alert">{error}</div>}
         <button className="button button-primary button-block" disabled={loading}>{loading ? 'Validando…' : 'Entrar na administração'}</button>
