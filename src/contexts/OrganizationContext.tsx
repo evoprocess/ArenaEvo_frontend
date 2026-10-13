@@ -40,6 +40,10 @@ export function OrganizationProvider({ children }: { children: ReactNode }) {
         const remote = await resolveOrganization(orgSlug);
         if (!active) return;
         if (!remote) {
+          if (local) {
+            setState({ organization: local, loading: false, error: null });
+            return;
+          }
           setState({ organization: null, loading: false, error: 'Organização não encontrada.' });
           return;
         }
@@ -53,7 +57,7 @@ export function OrganizationProvider({ children }: { children: ReactNode }) {
         setState({ organization, loading: false, error: null });
       } catch {
         if (!active) return;
-        if (local && import.meta.env.DEV) {
+        if (local) {
           setState({ organization: local, loading: false, error: null });
         } else {
           setState({ organization: null, loading: false, error: 'Não foi possível consultar esta organização.' });

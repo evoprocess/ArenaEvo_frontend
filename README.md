@@ -27,5 +27,9 @@ O contato comercial da página principal é lido do documento `public/config` do
 
 Antes da autenticação, o slug da URL é resolvido pelo documento público `public/slug_org`. Cada campo associa um slug ao identificador interno da organização, por exemplo `bxct: "ORG_0001"`. Depois da autenticação no Firebase Auth, o perfil é validado no mapa de usuário presente em `logins/{orgId}`.
 
+Organizações registradas localmente em `org/registry.ts`, como `bxct`, também
+abrem pelo branding empacotado caso o mapa público ainda não esteja disponível.
+Esse fallback não concede acesso aos dados privados nem substitui a autenticação.
+
 O nome do mapa já identifica o login, portanto ele contém somente `nome`, `perfil`, `status_ativo` e `tipo`. `tipo` aceita apenas `funcionario` ou `cliente`; `status_ativo: false` bloqueia o acesso e exibe a orientação para contatar o administrador do estabelecimento.
 
