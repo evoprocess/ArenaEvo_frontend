@@ -1,6 +1,6 @@
 import type { ReactNode, SVGProps } from 'react';
 
-type IconName = 'grid' | 'users' | 'wallet' | 'calendar' | 'chart' | 'receipt' | 'logout' | 'menu' | 'arrow' | 'check' | 'spark' | 'shield' | 'close';
+type IconName = 'grid' | 'users' | 'wallet' | 'calendar' | 'chart' | 'receipt' | 'logout' | 'menu' | 'arrow' | 'check' | 'spark' | 'shield' | 'close' | 'whatsapp';
 
 const paths: Record<IconName, ReactNode> = {
   grid: <><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></>,
@@ -16,6 +16,7 @@ const paths: Record<IconName, ReactNode> = {
   spark: <path d="m12 3-1.4 4.2a5 5 0 0 1-3.2 3.2L3 12l4.4 1.6a5 5 0 0 1 3.2 3.2L12 21l1.4-4.2a5 5 0 0 1 3.2-3.2L21 12l-4.4-1.6a5 5 0 0 1-3.2-3.2L12 3Z"/>,
   shield: <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Zm-3-10 2 2 4-4"/>,
   close: <path d="m18 6-12 12M6 6l12 12"/>,
+  whatsapp: <><path d="M20.5 11.6a8.5 8.5 0 0 1-12.6 7.5L3 20.5l1.3-4.7A8.5 8.5 0 1 1 20.5 11.6Z"/><path d="M8.1 7.8c.2-.5.5-.5.8-.5h.5c.2 0 .4.1.5.4l.8 2c.1.3.1.5-.1.7l-.6.8c-.2.2-.1.4 0 .6.7 1.2 1.6 2.1 2.8 2.7.2.1.4.1.6-.1l.8-1c.2-.2.4-.3.7-.2l2 .9c.3.1.4.3.4.5 0 .3-.1 1.4-.8 2-.6.6-1.5.9-2.4.7-1.3-.3-3.1-1-4.9-2.6-1.5-1.4-2.6-3.1-3-4.5-.4-1.3.2-2.1.5-2.4Z"/></>,
 };
 
 export function Icon({ name, ...props }: SVGProps<SVGSVGElement> & { name: IconName }) {
