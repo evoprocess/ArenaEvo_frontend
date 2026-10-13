@@ -35,10 +35,8 @@ jobs:
       - name: Build
         run: npm run build
         env:
-          # O Pages do repositório usa o subdiretório por padrão.
-          # Ao ativar o domínio próprio, defina PAGES_BASE_PATH=/ nas
-          # variables do GitHub Actions para publicar na raiz do domínio.
-          VITE_BASE_PATH: ${{ vars.PAGES_BASE_PATH || '/ArenaEvo_frontend/' }}
+          # O domínio próprio publica na raiz.
+          VITE_BASE_PATH: /
 
       - name: Add SPA fallback
         run: cp dist/index.html dist/404.html

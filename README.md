@@ -16,11 +16,8 @@ Em produção, a API padrão é `https://arenaevo-backend.onrender.com`. Ela pod
 
 ## GitHub Pages e domínio próprio
 
-O workflow publica o projeto em `/ArenaEvo_frontend/` enquanto ele usa o
-endereço padrão do GitHub Pages. Quando `www.arenaevo.com.br` for configurado
-como domínio do Pages, cadastre a variável de Actions `PAGES_BASE_PATH` com o
-valor `/`. Assim, as rotas públicas ficam na raiz do domínio, como `/bxct`, sem
-o nome do repositório na URL.
+O workflow publica na raiz de `www.arenaevo.com.br`, portanto as rotas públicas
+ficam como `/bxct`, sem o nome do repositório na URL.
 
 ## Firebase
 
