@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Icon } from '../components/Icon';
 import { LoginDialog } from '../components/LoginDialog';
 import { useOrganization } from '../contexts/OrganizationContext';
@@ -17,7 +18,7 @@ export function OrganizationHome() {
   return (
     <main className="org-page">
       <nav className="org-nav container">
-        <a className="org-brand" href={`/${org.slug}`}><span className="org-logo"><img src={org.logoUrl} alt={org.name} /></span><span><small>ARENAEVO /</small>{org.shortName}</span></a>
+        <Link className="org-brand" to={`/${org.slug}`}><span className="org-logo"><img src={org.logoUrl} alt={org.name} /></span><span><small>ARENAEVO /</small>{org.shortName}</span></Link>
         <div className="nav-actions"><a href="#treinos" className="nav-link">Treinos</a><a href="#sobre" className="nav-link">Sobre</a><button className="button button-outline" onClick={() => setLoginOpen(true)}>Área de gestão</button></div>
       </nav>
       <section className="org-hero container">

@@ -1,4 +1,4 @@
-import { Navigate, Route, Routes } from 'react-router-dom';
+import { Link, Navigate, Route, Routes } from 'react-router-dom';
 import { OrganizationProvider, useOrganization } from './contexts/OrganizationContext';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { PlatformHome } from './pages/PlatformHome';
@@ -22,7 +22,7 @@ function OrganizationRoutes() {
 
   if (loading) return <div className="full-state"><span className="loader" /><p>Preparando sua arena…</p></div>;
   if (error || !organization) {
-    return <div className="full-state"><div className="state-code">404</div><h1>Organização não encontrada</h1><p>{error}</p><a className="button button-primary" href="/">Voltar para ArenaEvo</a></div>;
+    return <div className="full-state"><div className="state-code">404</div><h1>Organização não encontrada</h1><p>{error}</p><Link className="button button-primary" to="/">Voltar para ArenaEvo</Link></div>;
   }
 
   return (

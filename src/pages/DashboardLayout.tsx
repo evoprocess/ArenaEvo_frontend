@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom';
+import { Link, NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { Icon } from '../components/Icon';
 import { useAuth } from '../contexts/AuthContext';
 import { useOrganization } from '../contexts/OrganizationContext';
@@ -33,7 +33,7 @@ export function DashboardLayout() {
     <div className="app-shell">
       {menuOpen && <button className="sidebar-scrim" aria-label="Fechar menu" onClick={() => setMenuOpen(false)} />}
       <aside className={`sidebar ${menuOpen ? 'is-open' : ''}`}>
-        <a className="sidebar-brand" href={`/${org?.slug}`}><span className="org-logo"><img src={org?.logoUrl} alt="" /></span><span><small>ARENAEVO</small>{org?.shortName}</span></a>
+        <Link className="sidebar-brand" to={`/${org?.slug}`}><span className="org-logo"><img src={org?.logoUrl} alt="" /></span><span><small>ARENAEVO</small>{org?.shortName}</span></Link>
         <nav className="sidebar-nav">{navigation.map((item) => <NavLink key={item.path} to={item.path} onClick={() => setMenuOpen(false)} className={({ isActive }) => isActive ? 'active' : ''}><Icon name={item.icon} /><span>{item.label}</span></NavLink>)}</nav>
         <div className="sidebar-user"><div className="avatar">{profile?.displayName?.charAt(0) || 'A'}</div><div><strong>{profile?.displayName || 'Administrador'}</strong><span>{profile?.role || 'admin'}</span></div><button onClick={leave} title="Sair"><Icon name="logout" /></button></div>
       </aside>

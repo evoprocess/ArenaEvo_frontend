@@ -7,7 +7,7 @@ export const bxct: OrganizationBrand = {
   name: 'BX Centro de Treinamento',
   tagline: 'Disciplina transforma. Evolução é consequência.',
   description: 'Jiu-jitsu, MMA e preparação física para todas as fases da sua evolução.',
-  logoUrl: '/imagens/logo_org_0001.webp',
+  logoUrl: `${import.meta.env.BASE_URL}imagens/logo_org_0001.webp`,
   colors: {
     primary: '#e5484d',
     secondary: '#ffb45b',

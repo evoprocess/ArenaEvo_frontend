@@ -14,6 +14,14 @@ O slug da URL identifica a organização. Exemplo: `/bxct` resolve `ORG_0001`. A
 
 Em produção, a API padrão é `https://arenaevo-backend.onrender.com`. Ela pode ser substituída por `VITE_API_URL` no provedor do frontend.
 
+## GitHub Pages e domínio próprio
+
+O workflow publica o projeto em `/ArenaEvo_frontend/` enquanto ele usa o
+endereço padrão do GitHub Pages. Quando `www.arenaevo.com.br` for configurado
+como domínio do Pages, cadastre a variável de Actions `PAGES_BASE_PATH` com o
+valor `/`. Assim, as rotas públicas ficam na raiz do domínio, como `/bxct`, sem
+o nome do repositório na URL.
+
 ## Firebase
 
 A configuração Web do Firebase é pública por definição e está disponível como fallback em `src/lib/firebase.ts`. Segurança real é aplicada por Firebase Auth, custom claims e pelas regras do Firestore, mantidas na raiz do projeto ArenaEvo.
