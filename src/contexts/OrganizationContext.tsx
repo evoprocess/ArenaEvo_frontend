@@ -44,7 +44,13 @@ export function OrganizationProvider({ children }: { children: ReactNode }) {
           return;
         }
         const organization = local
-          ? { ...local, slug: remote.slug, name: remote.name, shortName: remote.shortName || local.shortName }
+          ? {
+              ...local,
+              orgId: remote.orgId,
+              slug: remote.slug,
+              name: remote.name,
+              shortName: remote.shortName || local.shortName,
+            }
           : genericBrand(remote.orgId, remote.slug, remote.name, remote.shortName);
         setState({ organization, loading: false, error: null });
       } catch {

@@ -25,3 +25,5 @@ A configuração Web do Firebase é pública por definição e está disponível
 
 O contato comercial da página principal é lido do documento `public/config` do Firestore. O campo `contatoWhatsappComercial` deve ser uma string contendo o DDD e o número, por exemplo `71985101828`. O frontend acrescenta o código do Brasil (`55`) quando necessário.
 
+Antes da autenticação, o slug da URL é resolvido pelo documento público `public/slug_org`. Cada campo associa um slug ao identificador interno da organização, por exemplo `bxct: "ORG_0001"`. Depois da autenticação no Firebase Auth, o perfil é validado no mapa de usuário presente em `logins/{orgId}`.
+

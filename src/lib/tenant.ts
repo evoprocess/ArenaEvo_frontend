@@ -1,4 +1,4 @@
-import { collection, doc, getDoc, getDocs, limit, query, where } from 'firebase/firestore';
+import { doc, getDoc } from 'firebase/firestore';
 import { db } from './firebase';
 import type { OrganizationLookup } from '../types';
 
@@ -16,19 +16,23 @@ export const buildTenantEmail = (orgId: string, username: string) => {
 
 export const resolveOrganization = async (slugValue: string): Promise<OrganizationLookup | null> => {
   const slug = normalizeSlug(slugValue);
-  // O formato principal é slug_org/ORG_0001 com o campo slug = "bxct".
-  const byField = query(
-    collection(db, 'slug_org'),
-    where('slug', '==', slug),
-    where('active', '==', true),
-    limit(1),
-  );
-  const result = await getDocs(byField);
-  if (!result.empty) return result.docs[0].data() as OrganizationLookup;
+  if (!slug) return null;
 
-  // Também aceita slug_org/bxct para instalações que preferem lookup direto.
-  const directSnapshot = await getDoc(doc(db, 'slug_org', slug));
-  return directSnapshot.exists() ? directSnapshot.data() as OrganizationLookup : null;
+  const slugMapSnapshot = await getDoc(doc(db, 'public', 'slug_org'));
+  const orgId = slugMapSnapshot.data()?.[slug];
+  if (typeof orgId !== 'string' || !orgId) return null;
+
+  const profileSnapshot = await getDoc(doc(db, 'organizations', orgId, 'public', 'profile'));
+  if (!profileSnapshot.exists() || profileSnapshot.data().active !== true) return null;
+
+  const profile = profileSnapshot.data();
+  return {
+    orgId,
+    slug,
+    name: String(profile.name || orgId),
+    shortName: String(profile.shortName || profile.name || orgId),
+    active: true,
+  };
 };
 
 export const tenantCollectionPath = (orgId: string, name: string) =>
@@ -36,4 +40,13 @@ export const tenantCollectionPath = (orgId: string, name: string) =>
 
 export const userProfilePath = (orgId: string, uid: string) =>
   `logins/${orgId}/usuarios/${uid}`;
+
+export const loginDocumentPath = (orgId: string) => `logins/${orgId}`;
+
+export const usernameFromTenantEmail = (orgId: string, email: string | null) => {
+  if (!email) return '';
+  const prefix = `${orgId.toLowerCase()}-`;
+  const localPart = email.toLowerCase().split('@')[0] || '';
+  return localPart.startsWith(prefix) ? normalizeUsername(localPart.slice(prefix.length)) : '';
+};
 
