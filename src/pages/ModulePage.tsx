@@ -12,5 +12,5 @@ const content = {
 export function ModulePage({ type }: { type: keyof typeof content }) {
   const item = content[type];
   const { organization } = useOrganization();
-  return <section className="content-panel module-intro"><div className="module-icon"><Icon name={item.icon} /></div><p className="eyebrow">{organization?.shortName}</p><h2>{item.title}</h2><p>{item.text}</p><div className="module-note"><Icon name="shield" /><div><strong>Estrutura multi-organização pronta</strong><span>Os registros deste módulo serão gravados em <code>organizations/{organization?.orgId}/{type}</code>.</span></div></div><button className="button button-primary">Criar primeiro registro</button></section>;
+  return <section className="content-panel module-intro"><div className="module-icon"><Icon name={item.icon} /></div><p className="eyebrow">{organization?.shortName}</p><h2>{item.title}</h2><p>{item.text}</p><div className="module-note"><Icon name="shield" /><div><strong>Estrutura multi-organização pronta</strong><span>Os registros deste módulo serão gravados em <code>organizations/{organization?.orgId}/{type}</code>. A interface operacional original será conectada a este caminho na próxima etapa de migração.</span></div></div></section>;
 }

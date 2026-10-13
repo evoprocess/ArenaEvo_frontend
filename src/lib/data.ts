@@ -1,4 +1,5 @@
 import {
+  addDoc,
   collection,
   getCountFromServer,
   getDocs,
@@ -38,5 +39,21 @@ export const loadRecentStudents = async (orgId: string): Promise<Student[]> => {
   const ref = collection(db, tenantCollectionPath(orgId, 'alunos'));
   const snapshot = await getDocs(query(ref, orderBy('nome'), limit(8)));
   return snapshot.docs.map((item) => ({ id: item.id, ...item.data() })) as Student[];
+};
+
+export const loadStudents = async (orgId: string): Promise<Student[]> => {
+  const ref = collection(db, tenantCollectionPath(orgId, 'alunos'));
+  const snapshot = await getDocs(query(ref, orderBy('nome')));
+  return snapshot.docs.map((item) => ({ id: item.id, ...item.data() })) as Student[];
+};
+
+export const createStudent = async (orgId: string, student: Omit<Student, 'id' | 'createdAt'>) => {
+  const timestamp = new Date().toISOString();
+  const result = await addDoc(collection(db, tenantCollectionPath(orgId, 'alunos')), {
+    ...student,
+    createdAt: timestamp,
+    updatedAt: timestamp,
+  });
+  return result.id;
 };
 
