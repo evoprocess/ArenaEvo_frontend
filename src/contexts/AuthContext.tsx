@@ -11,7 +11,7 @@ import {
   userProfilePath,
   usernameFromTenantEmail,
 } from '../lib/tenant';
-import type { UserProfile, UserRole } from '../types';
+import type { UserProfile, UserRole, UserType } from '../types';
 import { useOrganization } from './OrganizationContext';
 
 type AuthState = {
@@ -23,6 +23,9 @@ type AuthState = {
 };
 
 const AuthContext = createContext<AuthState | null>(null);
+const inactiveAccessMessage = 'Acesso desativado. Entre em contato com o administrador do estabelecimento.';
+
+class InactiveAccessError extends Error {}
 
 const rolesByProfile: Record<string, UserRole> = {
   owner: 'owner',
@@ -44,7 +47,12 @@ const loadOrganizationProfile = async (nextUser: User, orgId: string, usernameVa
     const mappedProfile = loginSnapshot.data()?.[username];
     if (mappedProfile && typeof mappedProfile === 'object') {
       const profile = mappedProfile as Record<string, unknown>;
-      if (profile.statusAtivo !== true || (profile.uid && profile.uid !== nextUser.uid)) return null;
+      const active = 'status_ativo' in profile ? profile.status_ativo === true : profile.statusAtivo === true;
+      if (!active) throw new InactiveAccessError(inactiveAccessMessage);
+      if (profile.uid && profile.uid !== nextUser.uid) return null;
+      if (!['funcionario', 'cliente'].includes(String(profile.tipo))) return null;
+
+      const tipo: UserType = profile.tipo === 'cliente' ? 'cliente' : 'funcionario';
 
       return {
         uid: nextUser.uid,
@@ -53,14 +61,21 @@ const loadOrganizationProfile = async (nextUser: User, orgId: string, usernameVa
         displayName: String(profile.nome || nextUser.displayName || username),
         role: rolesByProfile[String(profile.perfil)] || 'viewer',
         active: true,
+        tipo,
       } satisfies UserProfile;
     }
   }
 
   // Compatibilidade temporária com perfis criados antes do mapa logins/{orgId}.
   const legacySnapshot = await getDoc(doc(db, userProfilePath(orgId, nextUser.uid)));
-  if (!legacySnapshot.exists() || legacySnapshot.data().active !== true) return null;
-  return { uid: nextUser.uid, ...legacySnapshot.data() } as UserProfile;
+  if (!legacySnapshot.exists()) return null;
+  const legacyProfile = legacySnapshot.data();
+  if (legacyProfile.active !== true) throw new InactiveAccessError(inactiveAccessMessage);
+  return {
+    uid: nextUser.uid,
+    ...legacyProfile,
+    tipo: legacyProfile.tipo === 'cliente' ? 'cliente' : 'funcionario',
+  } as UserProfile;
 };
 
 export function AuthProvider({ children }: { children: ReactNode }) {
@@ -98,6 +113,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setUser(nextUser);
       setProfile(nextProfile);
     } catch (error) {
+      if (error instanceof InactiveAccessError) await signOut(auth);
       console.error('Falha ao restaurar a sessão:', error);
       setUser(null);
       setProfile(null);
@@ -117,11 +133,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       throw new Error('Usuário não autorizado para esta organização.');
     }
 
-    const nextProfile = await loadOrganizationProfile(
-      credential.user,
-      organization.orgId,
-      normalizedUsername,
-    );
+    let nextProfile: UserProfile | null;
+    try {
+      nextProfile = await loadOrganizationProfile(
+        credential.user,
+        organization.orgId,
+        normalizedUsername,
+      );
+    } catch (error) {
+      await signOut(auth);
+      throw error;
+    }
     if (!nextProfile) {
       await signOut(auth);
       throw new Error('Usuário sem acesso ativo.');
