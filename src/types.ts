@@ -25,7 +25,24 @@ export interface OrganizationLookup {
   orgId: string;
   slug: string;
   name: string;
+  shortName?: string;
   active: boolean;
+}
+
+export interface AdminOrganization {
+  orgId: string;
+  slug: string;
+  name: string;
+  shortName: string;
+  active: boolean;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface AdminSession {
+  uid: string;
+  email: string;
+  name: string;
 }
 
 export interface UserProfile {

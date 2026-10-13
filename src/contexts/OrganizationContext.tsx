@@ -13,10 +13,10 @@ type OrganizationState = {
 
 const OrganizationContext = createContext<OrganizationState | null>(null);
 
-const genericBrand = (orgId: string, slug: string, name: string): OrganizationBrand => ({
+const genericBrand = (orgId: string, slug: string, name: string, shortName?: string): OrganizationBrand => ({
   orgId,
   slug,
-  shortName: name,
+  shortName: shortName || name,
   name,
   tagline: 'Seu centro de treinamento em evolução.',
   description: 'Gestão, comunidade e performance em um só lugar.',
@@ -39,15 +39,17 @@ export function OrganizationProvider({ children }: { children: ReactNode }) {
       try {
         const remote = await resolveOrganization(orgSlug);
         if (!active) return;
-        if (!remote && !local) {
+        if (!remote) {
           setState({ organization: null, loading: false, error: 'Organização não encontrada.' });
           return;
         }
-        const organization = local ?? genericBrand(remote!.orgId, remote!.slug, remote!.name);
+        const organization = local
+          ? { ...local, slug: remote.slug, name: remote.name, shortName: remote.shortName || local.shortName }
+          : genericBrand(remote.orgId, remote.slug, remote.name, remote.shortName);
         setState({ organization, loading: false, error: null });
       } catch {
         if (!active) return;
-        if (local) {
+        if (local && import.meta.env.DEV) {
           setState({ organization: local, loading: false, error: null });
         } else {
           setState({ organization: null, loading: false, error: 'Não foi possível consultar esta organização.' });
