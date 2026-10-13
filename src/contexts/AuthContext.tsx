@@ -49,7 +49,6 @@ const loadOrganizationProfile = async (nextUser: User, orgId: string, usernameVa
       const profile = mappedProfile as Record<string, unknown>;
       const active = 'status_ativo' in profile ? profile.status_ativo === true : profile.statusAtivo === true;
       if (!active) throw new InactiveAccessError(inactiveAccessMessage);
-      if (profile.uid && profile.uid !== nextUser.uid) return null;
       if (!['funcionario', 'cliente'].includes(String(profile.tipo))) return null;
 
       const tipo: UserType = profile.tipo === 'cliente' ? 'cliente' : 'funcionario';
