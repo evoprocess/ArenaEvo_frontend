@@ -38,8 +38,12 @@ jobs:
           # O domínio próprio publica na raiz.
           VITE_BASE_PATH: /
 
-      - name: Add SPA fallback
-        run: cp dist/index.html dist/404.html
+      - name: Add SPA routes and fallback
+        run: |
+          mkdir -p dist/bxct dist/admin
+          cp dist/index.html dist/bxct/index.html
+          cp dist/index.html dist/admin/index.html
+          cp dist/index.html dist/404.html
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
