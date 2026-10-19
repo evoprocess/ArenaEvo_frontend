@@ -35,10 +35,8 @@ a { color: inherit; text-decoration: none; }
 .platform-skip-link:focus { transform: translateY(0); }
 .platform-header { position: fixed; z-index: 1000; inset: 0 0 auto; height: 78px; border-bottom: 1px solid #102a4c17; background: #fffffff2; box-shadow: 0 8px 30px #102a4c0f; backdrop-filter: blur(16px); }
 .platform-nav { height: 78px; display: flex; align-items: center; gap: 22px; }
-.platform-brand { flex: 0 0 auto; display: inline-flex; align-items: center; gap: 10px; color: var(--platform-navy); }
-.platform-brand-mark { width: 42px; height: 42px; display: grid; place-items: center; border-radius: 13px; color: #fff; background: linear-gradient(135deg, var(--platform-orange), #da4619); box-shadow: 0 10px 24px #f26a2e42; font: 800 13px 'Manrope', sans-serif; letter-spacing: -.04em; }
-.platform-brand-name { font: 800 20px 'Manrope', sans-serif; letter-spacing: -.04em; }
-.platform-brand-name span { color: var(--platform-orange); }
+.platform-brand { width: 172px; height: 62px; flex: 0 0 auto; display: inline-flex; align-items: center; }
+.platform-brand-logo { width: 100%; height: 100%; display: block; object-fit: contain; object-position: left center; }
 .platform-tabs { min-width: 0; height: 100%; margin-left: auto; display: flex; align-items: stretch; }
 .platform-tabs a { position: relative; padding: 0 14px; display: inline-flex; align-items: center; color: #697386; font-size: 12px; font-weight: 700; white-space: nowrap; transition: color .2s ease; }
 .platform-tabs a::after { position: absolute; right: 14px; bottom: 0; left: 14px; height: 3px; border-radius: 3px 3px 0 0; background: var(--platform-orange); content: ''; transform: scaleX(0); transition: transform .25s ease; }
@@ -127,8 +125,7 @@ a { color: inherit; text-decoration: none; }
 }
 
 @media (max-width: 520px) {
-  .platform-brand-mark { width: 38px; height: 38px; border-radius: 11px; }
-  .platform-brand-name { font-size: 18px; }
+  .platform-brand { width: 132px; height: 52px; }
   .platform-access-button { min-height: 37px; padding-inline: 13px; }
   .platform-contact-link { display: none; }
   .platform-panel { min-height: max(100svh, 790px); }

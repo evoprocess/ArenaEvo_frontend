@@ -62,8 +62,7 @@ export function PlatformHome() {
       <header className="platform-header">
         <div className="platform-shell platform-nav">
           <Link className="platform-brand" to="/" aria-label="ArenaEvo — início">
-            <span className="platform-brand-mark">AE</span>
-            <span className="platform-brand-name">Arena<span>Evo</span></span>
+            <img className="platform-brand-logo" src={`${import.meta.env.BASE_URL}imagens/logo_org_0000.webp`} alt="ArenaEvo" />
           </Link>
 
           <nav className="platform-tabs" aria-label="Soluções ArenaEvo">
