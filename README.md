@@ -1,6 +1,6 @@
 # ArenaEvo Frontend
 
-Frontend multi-organização em React, TypeScript e Vite.
+Frontend multi-organização em React, TypeScript e Vite. 
 
 ## Comandos
 
