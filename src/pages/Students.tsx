@@ -1,79 +1,93 @@
 import { useEffect, useMemo, useState } from 'react';
 import type { FormEvent } from 'react';
-import { Icon } from '../components/Icon';
 import { useOrganization } from '../contexts/OrganizationContext';
-import { createStudent, loadStudents } from '../lib/data';
-import type { Student } from '../types';
+import { createStudent, deleteStudent, loadClasses, loadStudents, updateStudent } from '../lib/data';
+import type { ClassGroup, Student } from '../types';
+import { Feedback, Loading, ManagementModal, formatMoney, todayInput } from '../components/Management';
+
+const blankStudent = (): Student => ({
+  nome: '', telefone: '', modalidade: '', turmas: [], horario: '', dataMatricula: todayInput(),
+  plano: 'mensal', valor: 0, vencimento: 1, status: 'ativo',
+});
 
 export function Students() {
   const { organization } = useOrganization();
   const [students, setStudents] = useState<Student[]>([]);
-  const [search, setSearch] = useState('');
-  const [loading, setLoading] = useState(true);
+  const [classes, setClasses] = useState<ClassGroup[]>([]);
+  const [editing, setEditing] = useState<Student | null>(null);
   const [formOpen, setFormOpen] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState('');
+  const [filters, setFilters] = useState({ search: '', modalidade: '', turma: '', status: '' });
 
-  const refresh = () => {
-    if (!organization) return Promise.resolve();
-    return loadStudents(organization.orgId).then(setStudents);
+  const refresh = async () => {
+    if (!organization) return;
+    const [nextStudents, nextClasses] = await Promise.all([loadStudents(organization.orgId), loadClasses(organization.orgId)]);
+    setStudents(nextStudents); setClasses(nextClasses);
   };
 
   useEffect(() => {
-    if (!organization) return;
-    loadStudents(organization.orgId)
-      .then(setStudents)
-      .catch(() => setError('Não foi possível carregar os alunos.'))
-      .finally(() => setLoading(false));
+    refresh().catch(() => setError('Não foi possível carregar os alunos.')).finally(() => setLoading(false));
   }, [organization]);
 
-  const filtered = useMemo(
-    () => students.filter((student) => student.nome.toLowerCase().includes(search.toLowerCase())),
-    [students, search],
-  );
+  const filtered = useMemo(() => students.filter((student) =>
+    (!filters.search || student.nome.toLowerCase().includes(filters.search.toLowerCase())) &&
+    (!filters.modalidade || student.modalidade === filters.modalidade) &&
+    (!filters.turma || student.turmas.includes(filters.turma)) &&
+    (!filters.status || student.status === filters.status),
+  ), [students, filters]);
+
+  const openForm = (student?: Student) => { setEditing(student || blankStudent()); setFormOpen(true); setError(''); };
 
   const submit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (!organization) return;
+    if (!organization || !editing) return;
     const form = new FormData(event.currentTarget);
-    setSaving(true);
-    setError('');
+    const payload: Omit<Student, 'id' | 'createdAt' | 'updatedAt'> = {
+      nome: String(form.get('nome') || '').trim(), telefone: String(form.get('telefone') || '').trim(),
+      modalidade: String(form.get('modalidade') || ''), turmas: form.getAll('turmas').map(String),
+      horario: String(form.get('horario') || ''), dataMatricula: String(form.get('dataMatricula') || ''),
+      plano: String(form.get('plano')) as Student['plano'], valor: Number(form.get('valor') || 0),
+      vencimento: Number(form.get('vencimento') || 1), status: String(form.get('status')) as Student['status'],
+    };
+    setSaving(true); setError('');
     try {
-      await createStudent(organization.orgId, {
-        nome: String(form.get('nome') || '').trim(),
-        telefone: String(form.get('telefone') || '').trim(),
-        modalidade: String(form.get('modalidade') || ''),
-        plano: String(form.get('plano') || ''),
-        valor: Number(form.get('valor') || 0),
-        status: 'ativo',
-      });
-      await refresh();
-      setFormOpen(false);
-    } catch {
-      setError('Não foi possível cadastrar. Verifique sua permissão de administrador.');
-    } finally {
-      setSaving(false);
-    }
+      if (editing.id) await updateStudent(organization.orgId, editing.id, payload);
+      else await createStudent(organization.orgId, payload);
+      await refresh(); setFormOpen(false); setEditing(null);
+    } catch { setError('Não foi possível salvar o aluno. Confira sua permissão.'); }
+    finally { setSaving(false); }
+  };
+
+  const remove = async (student: Student) => {
+    if (!organization || !student.id || !window.confirm(`Excluir ${student.nome}?`)) return;
+    try { await deleteStudent(organization.orgId, student.id); await refresh(); }
+    catch { setError('Não foi possível excluir o aluno.'); }
+  };
+
+  const className = (id: string) => {
+    const item = classes.find((value) => value.id === id);
+    return item ? `${item.modalidade} ${item.turma}` : id;
   };
 
   return (
     <section className="content-panel table-panel">
-      <div className="panel-heading">
-        <div><span>BASE DE ALUNOS</span><h2>{students.length} cadastrados</h2></div>
-        <div className="table-actions"><input value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Buscar aluno…" /><button className="button button-primary" onClick={() => setFormOpen((value) => !value)}>{formOpen ? 'Cancelar' : 'Novo aluno'}</button></div>
+      <div className="panel-heading management-heading"><div><span>BASE DE ALUNOS</span><h2>{students.length} cadastrados</h2></div><button className="button button-primary" onClick={() => openForm()}>Novo aluno</button></div>
+      <div className="filter-bar">
+        <input value={filters.search} onChange={(e) => setFilters({ ...filters, search: e.target.value })} placeholder="Buscar por nome…" />
+        <select value={filters.modalidade} onChange={(e) => setFilters({ ...filters, modalidade: e.target.value })}><option value="">Todas as modalidades</option>{organization?.modalities.map((item) => <option key={item} value={item.toLowerCase().replaceAll(' ', '-')}>{item}</option>)}</select>
+        <select value={filters.turma} onChange={(e) => setFilters({ ...filters, turma: e.target.value })}><option value="">Todas as turmas</option>{classes.map((item) => <option key={item.id} value={item.id}>{item.modalidade} {item.turma}</option>)}</select>
+        <select value={filters.status} onChange={(e) => setFilters({ ...filters, status: e.target.value })}><option value="">Todos os status</option><option value="ativo">Ativo</option><option value="inativo">Inativo</option><option value="suspenso">Suspenso</option></select>
       </div>
-      {formOpen && (
-        <form className="student-form" onSubmit={submit}>
-          <label>Nome<input name="nome" required placeholder="Nome completo" /></label>
-          <label>Telefone<input name="telefone" placeholder="(71) 99999-9999" /></label>
-          <label>Modalidade<select name="modalidade" required><option value="">Selecione</option>{organization?.modalities.map((item) => <option key={item} value={item.toLowerCase()}>{item}</option>)}</select></label>
-          <label>Plano<select name="plano"><option value="mensal">Mensal</option><option value="trimestral">Trimestral</option><option value="semestral">Semestral</option></select></label>
-          <label>Valor<input name="valor" type="number" min="0" step="0.01" placeholder="0,00" /></label>
-          <button className="button button-primary" disabled={saving}>{saving ? 'Salvando…' : 'Cadastrar aluno'}</button>
-        </form>
-      )}
-      {error && <div className="inline-alert">{error}</div>}
-      {loading ? <div className="panel-loading"><span className="loader" /> Carregando alunos…</div> : filtered.length ? <div className="responsive-table"><table><thead><tr><th>Aluno</th><th>Modalidade</th><th>Plano</th><th>Telefone</th><th>Status</th></tr></thead><tbody>{filtered.map((student) => <tr key={student.id}><td><strong>{student.nome}</strong></td><td>{student.modalidade}</td><td>{student.plano || '—'}</td><td>{student.telefone || '—'}</td><td><span className={`status-pill ${student.status}`}>{student.status}</span></td></tr>)}</tbody></table></div> : <div className="empty-state large"><Icon name="users" /><strong>Nenhum aluno encontrado</strong><span>Os alunos de {organization?.shortName} aparecerão somente nesta organização.</span></div>}
+      <Feedback message={error} />
+      {loading ? <Loading label="Carregando alunos…" /> : <div className="responsive-table"><table><thead><tr><th>Aluno</th><th>Modalidade</th><th>Turmas</th><th>Plano</th><th>Valor</th><th>Venc.</th><th>Status</th><th>Ações</th></tr></thead><tbody>{filtered.map((student) => <tr key={student.id}><td><strong>{student.nome}</strong><small className="cell-note">{student.telefone || 'Sem telefone'}</small></td><td>{student.modalidade}</td><td><div className="tag-list">{student.turmas.length ? student.turmas.map((id) => <span className="data-tag" key={id}>{className(id)}</span>) : '—'}</div></td><td>{student.plano}</td><td>{formatMoney(student.valor)}</td><td>Dia {student.vencimento}</td><td><span className={`status-pill ${student.status}`}>{student.status}</span></td><td><div className="row-actions"><button onClick={() => openForm(student)}>Editar</button><button className="danger" onClick={() => remove(student)}>Excluir</button></div></td></tr>)}</tbody></table>{!filtered.length && <div className="empty-table">Nenhum aluno encontrado.</div>}</div>}
+      {formOpen && editing && <ManagementModal title={editing.id ? 'Editar aluno' : 'Novo aluno'} onClose={() => setFormOpen(false)} wide><form className="management-form form-grid" onSubmit={submit}>
+        <label className="span-2">Nome<input name="nome" required defaultValue={editing.nome} /></label><label>Telefone<input name="telefone" required defaultValue={editing.telefone} /></label><label>Modalidade<select name="modalidade" required defaultValue={editing.modalidade}><option value="">Selecione</option>{organization?.modalities.map((item) => <option key={item} value={item.toLowerCase().replaceAll(' ', '-')}>{item}</option>)}</select></label>
+        <label className="span-2">Turmas<select name="turmas" multiple required defaultValue={editing.turmas}>{classes.map((item) => <option key={item.id} value={item.id}>{item.modalidade} {item.turma} — {item.professor}</option>)}</select><small>Use Ctrl/Cmd para selecionar mais de uma.</small></label><label>Horário<input name="horario" required placeholder="19:00" defaultValue={editing.horario} /></label><label>Data de matrícula<input name="dataMatricula" type="date" required defaultValue={editing.dataMatricula} /></label>
+        <label>Plano<select name="plano" defaultValue={editing.plano}><option value="mensal">Mensal</option><option value="trimestral">Trimestral</option><option value="semestral">Semestral</option></select></label><label>Valor<input name="valor" type="number" min="0" step="0.01" required defaultValue={editing.valor} /></label><label>Dia de vencimento<input name="vencimento" type="number" min="1" max="31" required defaultValue={editing.vencimento} /></label><label>Status<select name="status" defaultValue={editing.status}><option value="ativo">Ativo</option><option value="inativo">Inativo</option><option value="suspenso">Suspenso</option></select></label>
+        <div className="form-actions span-all"><button type="button" className="button button-ghost" onClick={() => setFormOpen(false)}>Cancelar</button><button className="button button-primary" disabled={saving}>{saving ? 'Salvando…' : 'Salvar aluno'}</button></div>
+      </form></ManagementModal>}
     </section>
   );
 }

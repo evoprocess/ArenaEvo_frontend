@@ -7,7 +7,11 @@ import { OrganizationHome } from './pages/OrganizationHome';
 import { DashboardLayout } from './pages/DashboardLayout';
 import { Dashboard } from './pages/Dashboard';
 import { Students } from './pages/Students';
-import { ModulePage } from './pages/ModulePage';
+import { Payments } from './pages/Payments';
+import { Classes } from './pages/Classes';
+import { AttendancePage } from './pages/AttendancePage';
+import { Finance } from './pages/Finance';
+import { Expenses } from './pages/Expenses';
 import { AdminOrganizations } from './pages/AdminOrganizations';
 
 function PlatformLayout() {
@@ -46,11 +50,11 @@ function OrganizationRoutes() {
           <Route index element={<Navigate to="dashboard" replace />} />
           <Route path="dashboard" element={<Dashboard />} />
           <Route path="alunos" element={<Students />} />
-          <Route path="mensalidades" element={<ModulePage type="mensalidades" />} />
-          <Route path="turmas" element={<ModulePage type="turmas" />} />
-          <Route path="frequencia" element={<ModulePage type="frequencia" />} />
-          <Route path="financeiro" element={<ModulePage type="financeiro" />} />
-          <Route path="despesas" element={<ModulePage type="despesas" />} />
+          <Route path="mensalidades" element={<Payments />} />
+          <Route path="turmas" element={<Classes />} />
+          <Route path="frequencia" element={<AttendancePage />} />
+          <Route path="financeiro" element={<Finance />} />
+          <Route path="despesas" element={<Expenses />} />
         </Route>
         <Route path="*" element={<Navigate to={`/${organization.slug}`} replace />} />
       </Routes>

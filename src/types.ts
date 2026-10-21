@@ -56,12 +56,76 @@ export interface UserProfile {
 export interface Student {
   id?: string;
   nome: string;
-  telefone?: string;
+  telefone: string;
   modalidade: string;
-  plano?: string;
-  valor?: number;
+  turmas: string[];
+  horario: string;
+  dataMatricula: string;
+  plano: 'mensal' | 'trimestral' | 'semestral';
+  valor: number;
+  vencimento: number;
   status: 'ativo' | 'inativo' | 'suspenso';
   createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface Payment {
+  id?: string;
+  alunoId: string;
+  alunoNome: string;
+  modalidade: string;
+  valor: number;
+  vencimento: string;
+  pago: boolean;
+  dataPagamento?: string | null;
+  formaPagamento?: 'dinheiro' | 'cartao' | 'pix' | 'boleto' | null;
+  observacao?: string;
+  mesReferencia: string;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface ClassGroup {
+  id?: string;
+  modalidade: string;
+  turma: string;
+  professor: string;
+  dias: string[];
+  horario: string;
+  limiteVagas: number;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface Attendance {
+  id?: string;
+  data: string;
+  alunoId: string;
+  turmaId: string;
+  nome: string;
+  modalidade?: string;
+  presenca: boolean;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export type ExpenseCategory = 'aluguel' | 'agua' | 'luz' | 'internet' | 'material' | 'professor' | 'outros';
+
+export interface Expense {
+  id?: string;
+  data: string;
+  descricao: string;
+  categoria: ExpenseCategory;
+  valor: number;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface FinancialSummary {
+  mes: string;
+  receitas: number;
+  despesas: number;
+  lucro: number;
 }
 
 export interface DashboardMetrics {
