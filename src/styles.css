@@ -29,23 +29,23 @@ a { color: inherit; text-decoration: none; }
 @keyframes spin { to { transform: rotate(360deg); } }
 
 /* ArenaEvo platform portfolio */
-.platform-page { --platform-navy: #102a4c; --platform-navy-deep: #071a31; --platform-orange: #f26a2e; min-height: 100vh; overflow: clip; color: #18263a; background: #fff; }
+.platform-page { --platform-navy: #3B3B3B; --platform-navy-deep: #202020; --platform-cyan: #1EC7D3; min-height: 100vh; overflow: clip; color: #18263a; background: #fff; }
 .platform-shell { width: min(1180px, calc(100% - 48px)); margin-inline: auto; }
 .platform-skip-link { position: fixed; z-index: 1200; top: 10px; left: 12px; padding: 10px 15px; border-radius: 10px; color: #fff; background: var(--platform-navy); transform: translateY(-150%); }
 .platform-skip-link:focus { transform: translateY(0); }
-.platform-header { position: fixed; z-index: 1000; inset: 0 0 auto; height: 78px; border-bottom: 1px solid #102a4c17; background: #fffffff2; box-shadow: 0 8px 30px #102a4c0f; backdrop-filter: blur(16px); }
+.platform-header { position: fixed; z-index: 1000; inset: 0 0 auto; height: 78px; border-bottom: 1px solid #3B3B3B17; background: #fffffff2; box-shadow: 0 8px 30px #3B3B3B0f; backdrop-filter: blur(16px); }
 .platform-nav { height: 78px; display: flex; align-items: center; gap: 22px; }
 .platform-brand { width: 172px; height: 62px; flex: 0 0 auto; display: inline-flex; align-items: center; }
 .platform-brand-logo { width: 100%; height: 100%; display: block; object-fit: contain; object-position: left center; }
 .platform-tabs { min-width: 0; height: 100%; margin-left: auto; display: flex; align-items: stretch; }
 .platform-tabs a { position: relative; padding: 0 14px; display: inline-flex; align-items: center; color: #697386; font-size: 12px; font-weight: 700; white-space: nowrap; transition: color .2s ease; }
-.platform-tabs a::after { position: absolute; right: 14px; bottom: 0; left: 14px; height: 3px; border-radius: 3px 3px 0 0; background: var(--platform-orange); content: ''; transform: scaleX(0); transition: transform .25s ease; }
+.platform-tabs a::after { position: absolute; right: 14px; bottom: 0; left: 14px; height: 3px; border-radius: 3px 3px 0 0; background: var(--platform-cyan); content: ''; transform: scaleX(0); transition: transform .25s ease; }
 .platform-tabs a:hover, .platform-tabs a.active { color: var(--platform-navy); }
 .platform-tabs a.active::after { transform: scaleX(1); }
 .platform-nav-actions { flex: 0 0 auto; display: flex; align-items: center; gap: 9px; }
 .platform-contact-link, .platform-access-button { min-height: 40px; padding: 0 14px; display: inline-flex; align-items: center; justify-content: center; gap: 8px; border: 0; border-radius: 11px; cursor: pointer; font-size: 12px; font-weight: 800; transition: transform .2s ease, background .2s ease; }
 .platform-contact-link { color: #0f7a3e; background: #eafaf0; }
-.platform-access-button { color: #fff; background: var(--platform-navy); box-shadow: 0 8px 20px #102a4c2e; }
+.platform-access-button { color: #fff; background: var(--platform-navy); box-shadow: 0 8px 20px #3B3B3B2e; }
 .platform-contact-link svg, .platform-access-button svg { width: 16px; }
 .platform-contact-link:hover, .platform-access-button:hover { transform: translateY(-1px); }
 .platform-contact-link:hover { color: #fff; background: #16a34a; }
@@ -65,10 +65,10 @@ a { color: inherit; text-decoration: none; }
 .platform-panel.is-content-right .platform-panel-inner { justify-content: flex-end; }
 .platform-panel-content { width: min(100%, 620px); }
 .platform-panel.is-content-right .platform-panel-content { display: flex; align-items: flex-end; flex-direction: column; text-align: right; }
-.platform-panel-index { margin-bottom: 20px; display: block; color: var(--platform-orange); font-size: 14px; font-weight: 800; letter-spacing: .14em; }
+.platform-panel-index { margin-bottom: 20px; display: block; color: var(--platform-cyan); font-size: 14px; font-weight: 800; letter-spacing: .14em; }
 .platform-panel-index small { color: #929cac; font-size: 10px; }
-.platform-eyebrow { margin-bottom: 20px; display: inline-flex; align-items: center; gap: 9px; color: var(--platform-orange); font-size: 11px; font-weight: 800; letter-spacing: .13em; text-transform: uppercase; }
-.platform-eyebrow::before { width: 30px; height: 2px; display: block; background: var(--platform-orange); content: ''; }
+.platform-eyebrow { margin-bottom: 20px; display: inline-flex; align-items: center; gap: 9px; color: var(--platform-cyan); font-size: 11px; font-weight: 800; letter-spacing: .13em; text-transform: uppercase; }
+.platform-eyebrow::before { width: 30px; height: 2px; display: block; background: var(--platform-cyan); content: ''; }
 .platform-eyebrow svg { width: 15px; }
 .platform-panel h1, .platform-panel h2 { max-width: 680px; margin: 0; color: var(--platform-navy); font: 800 clamp(3rem, 5.35vw, 5rem)/.99 'Manrope', sans-serif; letter-spacing: -.055em; }
 .platform-panel h2 { font-size: clamp(2.75rem, 4.9vw, 4.55rem); }
@@ -78,23 +78,23 @@ a { color: inherit; text-decoration: none; }
 .platform-button { min-height: 51px; padding: 0 21px; display: inline-flex; align-items: center; justify-content: center; gap: 9px; border: 1px solid transparent; border-radius: 14px; cursor: pointer; font-weight: 800; transition: transform .2s ease, box-shadow .2s ease; }
 .platform-button svg { width: 17px; }
 .platform-button:hover { transform: translateY(-2px); }
-.platform-button-primary { color: #fff; background: linear-gradient(135deg, var(--platform-orange), #dc4d1d); box-shadow: 0 14px 28px #dc4d1d3b; }
+.platform-button-primary { color: #fff; background: linear-gradient(135deg, var(--platform-cyan), #0FA4B0); box-shadow: 0 14px 28px #0FA4B03b; }
 .platform-button-secondary { border-color: #cbd3df; color: var(--platform-navy); background: #ffffffd9; backdrop-filter: blur(9px); }
 .platform-button-whatsapp { color: #fff; background: #16a34a; box-shadow: 0 14px 28px #16a34a38; }
 .platform-button:disabled { cursor: wait; opacity: .65; transform: none; }
 .platform-panel-tags { margin-top: 31px; display: flex; gap: 9px; flex-wrap: wrap; }
 .platform-panel.is-content-right .platform-panel-tags { justify-content: flex-end; }
-.platform-panel-tags span { padding: 8px 12px; border: 1px solid #102a4c21; border-radius: 999px; color: #536075; background: #ffffffc7; backdrop-filter: blur(8px); font-size: 10px; font-weight: 800; }
+.platform-panel-tags span { padding: 8px 12px; border: 1px solid #3B3B3B21; border-radius: 999px; color: #536075; background: #ffffffc7; backdrop-filter: blur(8px); font-size: 10px; font-weight: 800; }
 .platform-panel-list { width: min(100%, 540px); margin: 27px 0 0; padding: 0; display: grid; gap: 11px; list-style: none; }
 .platform-panel-list li { position: relative; padding-left: 22px; color: #4f5b6e; font-size: 13px; font-weight: 700; line-height: 1.45; }
-.platform-panel-list li::before { position: absolute; top: .48em; left: 0; width: 8px; height: 8px; border-radius: 50%; background: var(--platform-orange); box-shadow: 0 0 0 5px #f26a2e1c; content: ''; }
+.platform-panel-list li::before { position: absolute; top: .48em; left: 0; width: 8px; height: 8px; border-radius: 50%; background: var(--platform-cyan); box-shadow: 0 0 0 5px #1EC7D31c; content: ''; }
 .platform-panel.is-content-right .platform-panel-list li { padding-right: 22px; padding-left: 0; }
 .platform-panel.is-content-right .platform-panel-list li::before { right: 0; left: auto; }
-.platform-panel-note { width: fit-content; max-width: 490px; margin-top: 28px; padding: 13px 16px; display: flex; align-items: center; gap: 11px; border: 1px solid #102a4c1c; border-radius: 14px; color: #536075; background: #ffffffd9; box-shadow: 0 12px 28px #102a4c14; backdrop-filter: blur(10px); font-size: 12px; }
+.platform-panel-note { width: fit-content; max-width: 490px; margin-top: 28px; padding: 13px 16px; display: flex; align-items: center; gap: 11px; border: 1px solid #3B3B3B1c; border-radius: 14px; color: #536075; background: #ffffffd9; box-shadow: 0 12px 28px #3B3B3B14; backdrop-filter: blur(10px); font-size: 12px; }
 .platform-panel-note > svg { width: 36px; height: 36px; flex: 0 0 36px; padding: 9px; border-radius: 11px; color: #fff; background: var(--platform-navy); }
 .platform-panel-note strong { color: var(--platform-navy); }
 .platform-scroll-next { position: absolute; z-index: 3; bottom: 22px; left: 50%; display: flex; align-items: center; flex-direction: column; gap: 4px; color: #697386; transform: translateX(-50%); font-size: 9px; font-weight: 800; letter-spacing: .09em; text-transform: uppercase; }
-.platform-scroll-next svg { width: 18px; color: var(--platform-orange); transform: rotate(90deg); animation: platformScroll 1.7s ease-in-out infinite; }
+.platform-scroll-next svg { width: 18px; color: var(--platform-cyan); transform: rotate(90deg); animation: platformScroll 1.7s ease-in-out infinite; }
 @keyframes platformScroll { 0%, 100% { translate: 0 0; } 50% { translate: 0 5px; } }
 .platform-panel-footer { position: absolute; right: 28px; bottom: 20px; left: 28px; display: flex; justify-content: space-between; gap: 20px; color: #788496; font-size: 9px; font-weight: 700; letter-spacing: .05em; }
 
