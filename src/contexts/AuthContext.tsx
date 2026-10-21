@@ -8,7 +8,6 @@ import {
   buildTenantEmail,
   loginDocumentPath,
   normalizeUsername,
-  userProfilePath,
   usernameFromTenantEmail,
 } from '../lib/tenant';
 import type { UserProfile, UserRole, UserType } from '../types';
@@ -65,16 +64,7 @@ const loadOrganizationProfile = async (nextUser: User, orgId: string, usernameVa
     }
   }
 
-  // Compatibilidade temporária com perfis criados antes do mapa logins/{orgId}.
-  const legacySnapshot = await getDoc(doc(db, userProfilePath(orgId, nextUser.uid)));
-  if (!legacySnapshot.exists()) return null;
-  const legacyProfile = legacySnapshot.data();
-  if (legacyProfile.active !== true) throw new InactiveAccessError(inactiveAccessMessage);
-  return {
-    uid: nextUser.uid,
-    ...legacyProfile,
-    tipo: legacyProfile.tipo === 'cliente' ? 'cliente' : 'funcionario',
-  } as UserProfile;
+  return null;
 };
 
 export function AuthProvider({ children }: { children: ReactNode }) {

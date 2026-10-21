@@ -28,9 +28,6 @@ export const resolveOrganization = async (slugValue: string): Promise<Organizati
 export const tenantCollectionPath = (orgId: string, name: string) =>
   `organizations/${orgId}/${name}`;
 
-export const userProfilePath = (orgId: string, uid: string) =>
-  `logins/${orgId}/usuarios/${uid}`;
-
 export const loginDocumentPath = (orgId: string) => `logins/${orgId}`;
 
 export const usernameFromTenantEmail = (orgId: string, email: string | null) => {
