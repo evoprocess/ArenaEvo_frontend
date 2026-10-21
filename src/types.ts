@@ -56,6 +56,7 @@ export interface UserProfile {
 export interface Student {
   id?: string;
   nome: string;
+  observacao?: string;
   telefone: string;
   modalidade: string;
   turmas: string[];
@@ -133,5 +134,8 @@ export interface DashboardMetrics {
   monthlyRevenue: number;
   overduePayments: number;
   attendanceToday: number;
+  attendanceRateToday: number;
+  modalityCounts: Array<{ name: string; value: number }>;
+  recentActivities: string[];
 }
 

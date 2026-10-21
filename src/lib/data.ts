@@ -31,6 +31,7 @@ const readCollection = async <T>(orgId: string, name: string): Promise<T[]> => {
 
 const normalizeStudent = (student: Student): Student => ({
   ...student,
+  observacao: student.observacao || '',
   telefone: student.telefone || '',
   turmas: Array.isArray(student.turmas) ? student.turmas : [],
   horario: student.horario || '',
@@ -182,10 +183,34 @@ export const loadDashboardMetrics = async (orgId: string): Promise<DashboardMetr
   ]);
   const month = monthKey();
   const today = new Date().toISOString().slice(0, 10);
+  const todayAttendance = attendance.filter((item) => item.data === today);
+  const modalities = ['jiu-jitsu', 'mma', 'boxe', 'muay-thai'];
+  const recentActivities = [
+    ...payments.filter((item) => item.pago).map((item) => ({
+      date: item.dataPagamento || item.updatedAt || item.createdAt || item.vencimento,
+      text: `${item.alunoNome} pagou mensalidade (${item.modalidade || 'sem modalidade'})`,
+    })),
+    ...students.map((item) => ({
+      date: item.createdAt || item.dataMatricula,
+      text: `Novo aluno: ${item.nome} (${item.modalidade})`,
+    })),
+    ...attendance.map((item) => ({
+      date: item.updatedAt || item.createdAt || item.data,
+      text: `Frequência registrada para ${item.nome}`,
+    })),
+  ].sort((a, b) => String(b.date).localeCompare(String(a.date))).slice(0, 5).map((item) => item.text);
   return {
     activeStudents: students.filter((item) => item.status === 'ativo').length,
     monthlyRevenue: payments.filter((item) => item.mesReferencia === month && item.pago).reduce((total, item) => total + item.valor, 0),
     overduePayments: payments.filter((item) => item.mesReferencia === month && !item.pago).length,
-    attendanceToday: attendance.filter((item) => item.data === today && item.presenca).length,
+    attendanceToday: todayAttendance.filter((item) => item.presenca).length,
+    attendanceRateToday: todayAttendance.length
+      ? Math.round((todayAttendance.filter((item) => item.presenca).length / todayAttendance.length) * 100)
+      : 0,
+    modalityCounts: modalities.map((name) => ({
+      name,
+      value: students.filter((item) => item.status === 'ativo' && item.modalidade === name).length,
+    })),
+    recentActivities,
   };
 };

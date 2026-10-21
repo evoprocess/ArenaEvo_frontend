@@ -30,7 +30,7 @@ export function AttendancePage() {
   };
   useEffect(() => { refresh(); }, [organization, classId, date]);
 
-  const enrolled = useMemo(() => students.filter((student) => student.status === 'ativo' && student.turmas.includes(classId)), [students, classId]);
+  const enrolled = useMemo(() => students.filter((student) => student.turmas.includes(classId)), [students, classId]);
   const recordFor = (studentId?: string) => records.find((item) => item.alunoId === studentId);
   const toggle = (student: Student, present: boolean) => {
     if (!student.id) return; const existing = recordFor(student.id);

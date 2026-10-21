@@ -1,23 +1,22 @@
 import { useEffect, useState } from 'react';
 import { Icon } from '../components/Icon';
 import { useOrganization } from '../contexts/OrganizationContext';
-import { loadDashboardMetrics, loadRecentStudents } from '../lib/data';
-import type { DashboardMetrics, Student } from '../types';
+import { loadDashboardMetrics } from '../lib/data';
+import type { DashboardMetrics } from '../types';
 
-const initialMetrics: DashboardMetrics = { activeStudents: 0, monthlyRevenue: 0, overduePayments: 0, attendanceToday: 0 };
+const initialMetrics: DashboardMetrics = { activeStudents: 0, monthlyRevenue: 0, overduePayments: 0, attendanceToday: 0, attendanceRateToday: 0, modalityCounts: [], recentActivities: [] };
 const money = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL', maximumFractionDigits: 0 });
 
 export function Dashboard() {
   const { organization } = useOrganization();
   const [metrics, setMetrics] = useState(initialMetrics);
-  const [students, setStudents] = useState<Student[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
   useEffect(() => {
     if (!organization) return;
-    Promise.all([loadDashboardMetrics(organization.orgId), loadRecentStudents(organization.orgId)])
-      .then(([nextMetrics, nextStudents]) => { setMetrics(nextMetrics); setStudents(nextStudents); })
+    loadDashboardMetrics(organization.orgId)
+      .then(setMetrics)
       .catch(() => setError('Não foi possível carregar os indicadores. Confira os índices e as regras do Firestore.'))
       .finally(() => setLoading(false));
   }, [organization]);
@@ -28,7 +27,7 @@ export function Dashboard() {
     { label: 'Alunos ativos', value: String(metrics.activeStudents), icon: 'users' as const, note: 'Base atual' },
     { label: 'Receita no mês', value: money.format(metrics.monthlyRevenue), icon: 'wallet' as const, note: 'Mensalidades pagas' },
     { label: 'Pendências', value: String(metrics.overduePayments), icon: 'receipt' as const, note: 'Mensalidades em aberto' },
-    { label: 'Presentes hoje', value: String(metrics.attendanceToday), icon: 'check' as const, note: 'Check-ins registrados' },
+    { label: 'Frequência hoje', value: `${metrics.attendanceRateToday}%`, icon: 'check' as const, note: `${metrics.attendanceToday} presentes` },
   ];
 
   return (
@@ -37,8 +36,8 @@ export function Dashboard() {
       {error && <div className="inline-alert">{error}</div>}
       <section className="metrics-grid">{cards.map((card) => <article className="metric-card" key={card.label}><div className="metric-icon"><Icon name={card.icon} /></div><div><span>{card.label}</span><strong>{card.value}</strong><small>{card.note}</small></div></article>)}</section>
       <section className="dashboard-grid">
-        <article className="content-panel activity-panel"><div className="panel-heading"><div><span>ALUNOS</span><h2>Visão da base</h2></div><a href="alunos">Ver todos <Icon name="arrow" /></a></div>{students.length ? <div className="student-list">{students.slice(0, 5).map((student) => <div className="student-row" key={student.id}><span className="student-avatar">{student.nome.charAt(0)}</span><div><strong>{student.nome}</strong><span>{student.modalidade}</span></div><span className={`status-pill ${student.status}`}>{student.status}</span></div>)}</div> : <EmptyState text="Nenhum aluno cadastrado ainda." />}</article>
-        <article className="content-panel evolution-panel"><div className="panel-heading"><div><span>EVOLUÇÃO</span><h2>Resumo do mês</h2></div></div><div className="progress-visual"><div className="progress-ring"><span>{metrics.activeStudents}</span><small>alunos</small></div><p>Cadastre mensalidades e presenças para acompanhar os resultados da organização em tempo real.</p></div></article>
+        <article className="content-panel"><div className="panel-heading"><div><span>ALUNOS ATIVOS</span><h2>Distribuição por modalidade</h2></div></div><div className="distribution-list">{metrics.modalityCounts.map((item) => <div key={item.name}><span>{item.name}</span><strong>{item.value}</strong></div>)}</div></article>
+        <article className="content-panel"><div className="panel-heading"><div><span>MOVIMENTAÇÃO</span><h2>Últimas atividades</h2></div></div>{metrics.recentActivities.length ? <div className="activity-list">{metrics.recentActivities.map((item, index) => <div key={`${item}-${index}`}><span className="status-dot" />{item}</div>)}</div> : <EmptyState text="Nenhuma atividade recente." />}</article>
       </section>
     </div>
   );
