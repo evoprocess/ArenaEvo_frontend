@@ -1,4 +1,4 @@
-export type UserRole = 'owner' | 'admin' | 'manager' | 'instructor' | 'viewer';
+export type UserRole = 'gerente' | 'supervisor' | 'cliente';
 export type UserType = 'funcionario' | 'cliente';
 
 export interface OrganizationBrand {
@@ -51,6 +51,8 @@ export interface UserProfile {
   role: UserRole;
   active: boolean;
   tipo: UserType;
+  turmas: string[];
+  alunoId?: string;
 }
 
 export interface Student {

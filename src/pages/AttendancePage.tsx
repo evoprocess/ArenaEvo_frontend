@@ -1,11 +1,13 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useOrganization } from '../contexts/OrganizationContext';
+import { useAuth } from '../contexts/AuthContext';
 import { loadAttendance, loadClasses, loadStudents, saveAttendance } from '../lib/data';
 import type { Attendance, ClassGroup, Student } from '../types';
 import { Feedback, Loading, todayInput } from '../components/Management';
 
 export function AttendancePage() {
   const { organization } = useOrganization();
+  const { profile } = useAuth();
   const [classes, setClasses] = useState<ClassGroup[]>([]);
   const [students, setStudents] = useState<Student[]>([]);
   const [records, setRecords] = useState<Attendance[]>([]);
@@ -18,13 +20,13 @@ export function AttendancePage() {
 
   useEffect(() => {
     if (!organization) return;
-    Promise.all([loadClasses(organization.orgId), loadStudents(organization.orgId)]).then(([nextClasses, nextStudents]) => { setClasses(nextClasses); setStudents(nextStudents); setClassId((current) => current || nextClasses[0]?.id || ''); }).catch(() => setError('Não foi possível carregar as turmas.')).finally(() => setLoading(false));
-  }, [organization]);
+    Promise.all([loadClasses(organization.orgId, profile || undefined), loadStudents(organization.orgId, profile || undefined)]).then(([nextClasses, nextStudents]) => { setClasses(nextClasses); setStudents(nextStudents); setClassId((current) => current || nextClasses[0]?.id || ''); }).catch(() => setError('Não foi possível carregar as turmas.')).finally(() => setLoading(false));
+  }, [organization, profile]);
 
   const refresh = async () => {
     if (!organization || !classId) { setRecords([]); return; }
     setLoading(true); setError(''); setSuccess('');
-    try { setRecords(await loadAttendance(organization.orgId, date, classId)); }
+    try { setRecords(await loadAttendance(organization.orgId, date, classId, profile || undefined)); }
     catch { setError('Não foi possível carregar a frequência.'); }
     finally { setLoading(false); }
   };

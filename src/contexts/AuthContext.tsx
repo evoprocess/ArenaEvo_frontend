@@ -27,16 +27,18 @@ const inactiveAccessMessage = 'Acesso desativado. Entre em contato com o adminis
 class InactiveAccessError extends Error {}
 
 const rolesByProfile: Record<string, UserRole> = {
-  owner: 'owner',
-  proprietario: 'owner',
-  admin: 'admin',
-  administrador: 'admin',
-  manager: 'manager',
-  gerente: 'manager',
-  instructor: 'instructor',
-  instrutor: 'instructor',
-  viewer: 'viewer',
-  visualizador: 'viewer',
+  owner: 'gerente',
+  proprietario: 'gerente',
+  admin: 'gerente',
+  administrador: 'gerente',
+  manager: 'gerente',
+  gerente: 'gerente',
+  instructor: 'supervisor',
+  instrutor: 'supervisor',
+  viewer: 'supervisor',
+  visualizador: 'supervisor',
+  supervisor: 'supervisor',
+  cliente: 'cliente',
 };
 
 const loadOrganizationProfile = async (nextUser: User, orgId: string, usernameValue?: string) => {
@@ -50,16 +52,19 @@ const loadOrganizationProfile = async (nextUser: User, orgId: string, usernameVa
       if (!active) throw new InactiveAccessError(inactiveAccessMessage);
       if (!['funcionario', 'cliente'].includes(String(profile.tipo))) return null;
 
-      const tipo: UserType = profile.tipo === 'cliente' ? 'cliente' : 'funcionario';
+      const role = rolesByProfile[String(profile.perfil)] || 'supervisor';
+      const tipo: UserType = role === 'cliente' || profile.tipo === 'cliente' ? 'cliente' : 'funcionario';
 
       return {
         uid: nextUser.uid,
         orgId,
         username,
         displayName: String(profile.nome || nextUser.displayName || username),
-        role: rolesByProfile[String(profile.perfil)] || 'viewer',
+        role,
         active: true,
         tipo,
+        turmas: Array.isArray(profile.turmas) ? profile.turmas.map(String) : [],
+        ...(typeof profile.alunoId === 'string' ? { alunoId: profile.alunoId } : {}),
       } satisfies UserProfile;
     }
   }

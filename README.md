@@ -33,3 +33,5 @@ Esse fallback não concede acesso aos dados privados nem substitui a autenticaç
 
 O nome do mapa já identifica o login, portanto ele contém somente `nome`, `perfil`, `status_ativo` e `tipo`. `tipo` aceita apenas `funcionario` ou `cliente`; `status_ativo: false` bloqueia o acesso e exibe a orientação para contatar o administrador do estabelecimento.
 
+Os perfis aceitos são `gerente`, `supervisor` e `cliente`. O gerente acessa todos os módulos da organização. O supervisor recebe a lista `turmas` e visualiza apenas essas turmas e os alunos relacionados, podendo registrar frequência. O cliente recebe `alunoId` e visualiza somente seus dados e mensalidades.
+

@@ -3,8 +3,11 @@ import {
   collection,
   deleteDoc,
   doc,
+  getDoc,
   getDocs,
+  query,
   updateDoc,
+  where,
   writeBatch,
 } from 'firebase/firestore';
 import { db } from './firebase';
@@ -17,7 +20,10 @@ import type {
   FinancialSummary,
   Payment,
   Student,
+  UserProfile,
 } from '../types';
+
+type AccessScope = Pick<UserProfile, 'role' | 'turmas' | 'alunoId'>;
 
 const now = () => new Date().toISOString();
 const monthKey = (date = new Date()) => date.toISOString().slice(0, 7);
@@ -42,10 +48,23 @@ const normalizeStudent = (student: Student): Student => ({
   status: student.status || 'ativo',
 });
 
-export const loadStudents = async (orgId: string): Promise<Student[]> =>
-  (await readCollection<Student>(orgId, 'alunos'))
+export const loadStudents = async (orgId: string, access?: AccessScope): Promise<Student[]> => {
+  let students: Student[];
+  if (access?.role === 'cliente') {
+    if (!access.alunoId) return [];
+    const snapshot = await getDoc(docFor(orgId, 'alunos', access.alunoId));
+    students = snapshot.exists() ? [{ id: snapshot.id, ...snapshot.data() } as Student] : [];
+  } else if (access?.role === 'supervisor') {
+    if (!access.turmas.length) return [];
+    const snapshot = await getDocs(query(refFor(orgId, 'alunos'), where('turmas', 'array-contains-any', access.turmas.slice(0, 30))));
+    students = snapshot.docs.map((item) => ({ id: item.id, ...item.data() })) as Student[];
+  } else {
+    students = await readCollection<Student>(orgId, 'alunos');
+  }
+  return students
     .map(normalizeStudent)
     .sort((a, b) => a.nome.localeCompare(b.nome, 'pt-BR'));
+};
 
 export const loadRecentStudents = async (orgId: string): Promise<Student[]> =>
   (await loadStudents(orgId)).slice(0, 8);
@@ -61,10 +80,19 @@ export const updateStudent = async (orgId: string, id: string, student: Partial<
 
 export const deleteStudent = async (orgId: string, id: string) => deleteDoc(docFor(orgId, 'alunos', id));
 
-export const loadClasses = async (orgId: string): Promise<ClassGroup[]> =>
-  (await readCollection<ClassGroup>(orgId, 'turmas'))
+export const loadClasses = async (orgId: string, access?: AccessScope): Promise<ClassGroup[]> => {
+  let classes: ClassGroup[];
+  if (access?.role === 'cliente') return [];
+  if (access?.role === 'supervisor') {
+    const snapshots = await Promise.all(access.turmas.map((id) => getDoc(docFor(orgId, 'turmas', id))));
+    classes = snapshots.filter((item) => item.exists()).map((item) => ({ id: item.id, ...item.data() })) as ClassGroup[];
+  } else {
+    classes = await readCollection<ClassGroup>(orgId, 'turmas');
+  }
+  return classes
     .map((item) => ({ ...item, dias: Array.isArray(item.dias) ? item.dias : [], limiteVagas: Number(item.limiteVagas || 0) }))
     .sort((a, b) => `${a.modalidade} ${a.turma}`.localeCompare(`${b.modalidade} ${b.turma}`, 'pt-BR'));
+};
 
 export const createClass = async (orgId: string, classGroup: Omit<ClassGroup, 'id' | 'createdAt' | 'updatedAt'>) => {
   const timestamp = now();
@@ -84,10 +112,17 @@ export const setStudentClass = async (orgId: string, student: Student, classId: 
   await updateStudent(orgId, student.id, { turmas });
 };
 
-export const loadPayments = async (orgId: string): Promise<Payment[]> =>
-  (await readCollection<Payment>(orgId, 'mensalidades'))
+export const loadPayments = async (orgId: string, access?: AccessScope): Promise<Payment[]> => {
+  if (access?.role === 'supervisor') return [];
+  const payments = access?.role === 'cliente'
+    ? access.alunoId
+      ? (await getDocs(query(refFor(orgId, 'mensalidades'), where('alunoId', '==', access.alunoId)))).docs.map((item) => ({ id: item.id, ...item.data() })) as Payment[]
+      : []
+    : await readCollection<Payment>(orgId, 'mensalidades');
+  return payments
     .map((item) => ({ ...item, valor: Number(item.valor || 0), pago: Boolean(item.pago) }))
     .sort((a, b) => b.vencimento.localeCompare(a.vencimento));
+};
 
 export const createPayment = async (orgId: string, payment: Omit<Payment, 'id' | 'createdAt' | 'updatedAt'>) => {
   const timestamp = now();
@@ -116,9 +151,11 @@ export const updateExpense = async (orgId: string, id: string, expense: Partial<
 
 export const deleteExpense = async (orgId: string, id: string) => deleteDoc(docFor(orgId, 'despesas', id));
 
-export const loadAttendance = async (orgId: string, date: string, classId: string): Promise<Attendance[]> =>
-  (await readCollection<Attendance>(orgId, 'frequencia'))
-    .filter((item) => item.data === date && item.turmaId === classId);
+export const loadAttendance = async (orgId: string, date: string, classId: string, access?: AccessScope): Promise<Attendance[]> => {
+  if (access?.role === 'supervisor' && !access.turmas.includes(classId)) return [];
+  const snapshot = await getDocs(query(refFor(orgId, 'frequencia'), where('data', '==', date), where('turmaId', '==', classId)));
+  return snapshot.docs.map((item) => ({ id: item.id, ...item.data() })) as Attendance[];
+};
 
 export const saveAttendance = async (orgId: string, attendance: Attendance[]) => {
   const batch = writeBatch(db);
