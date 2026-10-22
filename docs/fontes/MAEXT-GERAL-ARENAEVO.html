@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Manual Externo — Apresentação e Uso do ArenaEvo</title>
+  <link rel="stylesheet" href="manual.css">
+  <style>
+    .page::after{content:attr(data-code) "  •  MATERIAL EXTERNO  •  Página " attr(data-page) " de " attr(data-total)}
+    .role{display:inline-block;padding:.7mm 2mm;border-radius:10mm;background:#e8f9fa;color:#087b86;font-size:7.5pt;font-weight:750}
+    .checklist{list-style:none;margin-left:0;padding-left:0}.checklist li{position:relative;padding-left:5mm}.checklist li::before{content:"✓";position:absolute;left:0;color:var(--green);font-weight:900}
+    .steps{counter-reset:step;list-style:none;margin-left:0;padding:0}.steps li{counter-increment:step;position:relative;min-height:10mm;margin:2mm 0;padding:2mm 2mm 2mm 12mm;border-bottom:.25mm solid var(--line)}.steps li::before{content:counter(step);position:absolute;left:1mm;top:1.2mm;width:7mm;height:7mm;display:grid;place-items:center;border-radius:50%;background:#0b4654;color:#fff;font-weight:800}
+    .tip{border-left:1.2mm solid var(--green)}
+  </style>
+</head>
+<body>
+  <section class="page cover" data-code="MAEXT-GERAL-ARENAEVO" data-page="1" data-total="17">
+    <div class="cover-band"></div><div class="cover-content">
+      <img class="cover-logo" src="assets/arenaevo-logo.webp" alt="ArenaEvo">
+      <div class="classification">GUIA DE APRESENTAÇÃO E USO</div>
+      <h1>ArenaEvo — Manual Geral do Usuário</h1>
+      <p class="subtitle">Conheça a plataforma e aprenda as principais rotinas de gestão, acompanhamento e consulta da sua organização.</p>
+      <div class="cover-meta"><div><span>Código</span>MAEXT-GERAL-ARENAEVO</div><div><span>Versão</span>1.0</div><div><span>Publicação</span>21 de outubro de 2026</div><div><span>Público</span>Gerentes, supervisores e clientes</div><div><span>Produto</span>ArenaEvo</div><div><span>Classificação</span>Material externo</div></div>
+    </div>
+  </section>
+
+  <section class="page" data-code="MAEXT-GERAL-ARENAEVO" data-page="2" data-total="17">
+    <header class="doc-header"><img src="assets/arenaevo-logo.webp" alt="ArenaEvo"><div>Manual do usuário<br>Sobre este guia</div></header>
+    <h2><span class="num">0.</span> Sobre este manual</h2>
+    <p class="lead">O ArenaEvo reúne em um só ambiente informações de alunos, turmas, frequência, mensalidades e gestão financeira, respeitando o perfil de cada usuário.</p>
+    <table><tr><th>Campo</th><th>Informação</th></tr><tr><td>Código</td><td><code>MAEXT-GERAL-ARENAEVO</code></td></tr><tr><td>Versão</td><td>1.0 — 21/10/2026</td></tr><tr><td>Objetivo</td><td>Apresentar o sistema e orientar suas rotinas principais.</td></tr><tr><td>Público</td><td>Gerentes, supervisores, equipe de atendimento e clientes/alunos.</td></tr><tr><td>Abrangência</td><td>Uso em computador, tablet ou celular por navegador compatível.</td></tr></table>
+    <h3>O que pode variar</h3><p>Cada organização possui endereço próprio, nome, logomarca, cores, modalidades e usuários. As opções visíveis também dependem do seu perfil de acesso.</p>
+    <h3>Histórico</h3><table class="compact"><tr><th>Versão</th><th>Data</th><th>Descrição</th></tr><tr><td>1.0</td><td>21/10/2026</td><td>Primeira edição: apresentação, acesso, módulos, rotinas, segurança e ajuda.</td></tr></table>
+    <div class="callout"><strong>Importante:</strong> exemplos deste guia são ilustrativos. Consulte o responsável da sua organização para regras comerciais, planos, cobranças e procedimentos internos.</div>
+    <div class="signature-grid"><div class="signature">Responsável ArenaEvo</div><div class="signature">Organização / ciência</div></div>
+  </section>
+
+  <section class="page" data-code="MAEXT-GERAL-ARENAEVO" data-page="3" data-total="17">
+    <header class="doc-header"><img src="assets/arenaevo-logo.webp" alt="ArenaEvo"><div>Manual do usuário<br>Sumário</div></header>
+    <h2>Sumário</h2>
+    <div class="toc"><div class="toc-row"><span class="chapter">1</span><span class="title">Conheça o ArenaEvo</span><span class="page-no">4</span></div><div class="toc-row"><span class="chapter">2</span><span class="title">Perfis e permissões</span><span class="page-no">5</span></div><div class="toc-row"><span class="chapter">3</span><span class="title">Acesso, login e navegação</span><span class="page-no">6</span></div><div class="toc-row"><span class="chapter">4</span><span class="title">Visão geral e indicadores</span><span class="page-no">8</span></div><div class="toc-row"><span class="chapter">5</span><span class="title">Alunos</span><span class="page-no">9</span></div><div class="toc-row"><span class="chapter">6</span><span class="title">Turmas e matrículas</span><span class="page-no">10</span></div><div class="toc-row"><span class="chapter">7</span><span class="title">Frequência</span><span class="page-no">11</span></div><div class="toc-row"><span class="chapter">8</span><span class="title">Mensalidades</span><span class="page-no">12</span></div><div class="toc-row"><span class="chapter">9</span><span class="title">Financeiro e despesas</span><span class="page-no">13</span></div><div class="toc-row"><span class="chapter">10</span><span class="title">Rotina do supervisor</span><span class="page-no">14</span></div><div class="toc-row"><span class="chapter">11</span><span class="title">Área do cliente/aluno</span><span class="page-no">15</span></div><div class="toc-row"><span class="chapter">12</span><span class="title">Segurança, boas práticas e suporte</span><span class="page-no">16</span></div><div class="toc-row"><span class="chapter">13</span><span class="title">Rotinas rápidas</span><span class="page-no">17</span></div></div>
+    <div class="callout tip"><strong>Dica:</strong> comece pelo seu perfil na página 5 e use as rotinas rápidas da última página no dia a dia.</div>
+  </section>
+
+  <section class="page" data-code="MAEXT-GERAL-ARENAEVO" data-page="4" data-total="17">
+    <header class="doc-header"><img src="assets/arenaevo-logo.webp" alt="ArenaEvo"><div>Capítulo 1<br>Apresentação</div></header>
+    <h2><span class="num">1.</span> Conheça o ArenaEvo</h2>
+    <p class="lead">Uma plataforma para organizar a operação, acompanhar alunos e transformar registros do dia a dia em informação útil para decisões.</p>
+    <div class="grid-3 small"><div class="card"><h3>Cadastros</h3><p>Centralize alunos, planos, contatos, modalidades e situação.</p></div><div class="card"><h3>Turmas</h3><p>Organize professores, horários, dias, vagas e matrículas.</p></div><div class="card"><h3>Frequência</h3><p>Registre presença e acompanhe a participação.</p></div><div class="card"><h3>Mensalidades</h3><p>Controle vencimentos, pagamentos e pendências.</p></div><div class="card"><h3>Financeiro</h3><p>Veja receitas, despesas, resultado e histórico.</p></div><div class="card"><h3>Indicadores</h3><p>Acompanhe o pulso da operação em uma visão resumida.</p></div></div>
+    <h3>Como a plataforma se organiza</h3>
+    <svg class="flowchart" viewBox="0 0 900 260" role="img" aria-label="Fluxo de uso do ArenaEvo"><defs><marker id="x" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#218896"/></marker></defs><g font-family="Segoe UI,Arial" text-anchor="middle"><rect x="30" y="80" width="170" height="90" rx="15" fill="#0b4654"/><text x="115" y="117" fill="white" font-size="20" font-weight="700">Cadastre</text><text x="115" y="145" fill="#bcebf0" font-size="15">alunos e turmas</text><rect x="265" y="80" width="170" height="90" rx="15" fill="#e8f9fa" stroke="#218896" stroke-width="3"/><text x="350" y="117" fill="#123" font-size="20" font-weight="700">Opere</text><text x="350" y="145" fill="#456" font-size="15">frequência e cobranças</text><rect x="500" y="80" width="170" height="90" rx="15" fill="#e8f9fa" stroke="#218896" stroke-width="3"/><text x="585" y="117" fill="#123" font-size="20" font-weight="700">Acompanhe</text><text x="585" y="145" fill="#456" font-size="15">painéis e pendências</text><rect x="735" y="80" width="135" height="90" rx="15" fill="#19734a"/><text x="802" y="117" fill="white" font-size="20" font-weight="700">Decida</text><text x="802" y="145" fill="#d8f5e6" font-size="15">com clareza</text></g><g fill="none" stroke="#218896" stroke-width="3" marker-end="url(#x)"><path d="M200 125H265"/><path d="M435 125H500"/><path d="M670 125H735"/></g></svg>
+    <div class="callout"><strong>Acesso separado:</strong> cada organização possui seu próprio endereço e seus dados não se misturam com os de outras organizações.</div>
+  </section>
+
+  <section class="page" data-code="MAEXT-GERAL-ARENAEVO" data-page="5" data-total="17">
+    <header class="doc-header"><img src="assets/arenaevo-logo.webp" alt="ArenaEvo"><div>Capítulo 2<br>Perfis</div></header>
+    <h2><span class="num">2.</span> Perfis e permissões</h2>
+    <p>O menu é adaptado ao perfil. Se uma opção não aparecer, ela pode não fazer parte das suas atribuições.</p>
+    <table class="compact matrix"><tr><th>Área</th><th>Gerente</th><th>Supervisor</th><th>Cliente</th></tr><tr><td>Visão geral</td><td class="yes">Acessa</td><td class="no">—</td><td class="no">—</td></tr><tr><td>Alunos</td><td class="yes">Gerencia todos</td><td class="limited">Vinculados</td><td class="limited">Próprio cadastro</td></tr><tr><td>Mensalidades</td><td class="yes">Gerencia</td><td class="no">—</td><td class="limited">Consulta próprias</td></tr><tr><td>Turmas</td><td class="yes">Gerencia</td><td class="limited">Consulta vinculadas</td><td class="no">—</td></tr><tr><td>Frequência</td><td class="yes">Todas</td><td class="limited">Registra vinculadas</td><td class="no">—</td></tr><tr><td>Financeiro</td><td class="yes">Acessa</td><td class="no">—</td><td class="no">—</td></tr><tr><td>Despesas</td><td class="yes">Gerencia</td><td class="no">—</td><td class="no">—</td></tr></table>
+    <div class="grid-3 small"><div class="card"><span class="role">GERENTE</span><h3>Administra</h3><p>Cuida da operação, cadastros, cobranças, despesas e indicadores.</p></div><div class="card"><span class="role">SUPERVISOR</span><h3>Acompanha</h3><p>Consulta suas turmas e alunos, além de registrar chamadas.</p></div><div class="card"><span class="role">CLIENTE</span><h3>Consulta</h3><p>Visualiza o próprio cadastro e suas mensalidades.</p></div></div>
+    <h3>Solicitação de acesso</h3><p>Peça criação, alteração ou desativação ao gerente da sua organização. Nunca use a conta de outra pessoa: cada acesso deve identificar seu verdadeiro usuário.</p>
+    <div class="callout warning"><strong>Privacidade:</strong> os exemplos e permissões seguem o princípio do menor acesso necessário. Comunique imediatamente qualquer informação que pareça pertencer a outra pessoa.</div>
+  </section>
+
+  <section class="page" data-code="MAEXT-GERAL-ARENAEVO" data-page="6" data-total="17">
+    <header class="doc-header"><img src="assets/arenaevo-logo.webp" alt="ArenaEvo"><div>Capítulo 3<br>Acesso</div></header>
+    <h2><span class="num">3.</span> Como acessar</h2>
+    <h3>3.1 Endereço da organização</h3><p>Use o link enviado pela sua organização, semelhante a <code>www.arenaevo.com.br/nome-da-organizacao</code>. Confira nome e logomarca antes de entrar.</p>
+    <h3>3.2 Login</h3>
+    <ol class="steps"><li>Abra o endereço correto da organização.</li><li>Selecione <strong>Área de gestão</strong> ou o acesso indicado.</li><li>Digite seu usuário exatamente como recebeu.</li><li>Informe sua senha sem compartilhá-la ou salvá-la em computador público.</li><li>Após a validação, o ArenaEvo abre a primeira área disponível ao seu perfil.</li></ol>
+    <h3>3.3 Se não conseguir entrar</h3>
+    <table class="compact"><tr><th>Mensagem/situação</th><th>O que fazer</th></tr><tr><td>Usuário ou senha inválidos</td><td>Revise digitação e Caps Lock; solicite reset ao responsável.</td></tr><tr><td>Acesso desativado</td><td>Fale com o gerente da organização.</td></tr><tr><td>Organização não encontrada</td><td>Confirme o link, inclusive hífens e endereço completo.</td></tr><tr><td>Conta de outra organização</td><td>Saia e abra o link correto; não tente contornar o bloqueio.</td></tr></table>
+    <div class="callout danger"><strong>Nunca envie sua senha</strong> por ticket, e-mail coletivo, formulário ou conversa não segura. O suporte não precisa conhecer sua senha para analisar um problema.</div>
+  </section>
+
+  <section class="page" data-code="MAEXT-GERAL-ARENAEVO" data-page="7" data-total="17">
+    <header class="doc-header"><img src="assets/arenaevo-logo.webp" alt="ArenaEvo"><div>Capítulo 3<br>Navegação</div></header>
+    <h2><span class="num">3.4</span> Navegação e padrões de tela</h2>
+    <h3>Menu lateral</h3><p>No computador, as áreas aparecem à esquerda. Em celular/tablet, use o botão de menu no topo. A área selecionada fica destacada.</p>
+    <table class="compact"><tr><th>Elemento</th><th>Função</th></tr><tr><td>Título superior</td><td>Mostra a área atual e o estado da operação.</td></tr><tr><td>Botão principal</td><td>Inicia ação como “Novo aluno”, “Nova turma” ou “Nova despesa”.</td></tr><tr><td>Filtros</td><td>Limitam mês, modalidade, status, turma ou pesquisa.</td></tr><tr><td>Tabela</td><td>Exibe registros e ações permitidas ao seu perfil.</td></tr><tr><td>Janela de edição</td><td>Reúne os campos necessários para salvar um registro.</td></tr><tr><td>Avisos</td><td>Informam sucesso, pendência ou erro; leia antes de repetir a ação.</td></tr></table>
+    <h3>Padrão de uso</h3>
+    <ol class="steps"><li>Escolha a área no menu.</li><li>Aplique filtros antes de procurar ou conferir totais.</li><li>Abra ou crie o registro.</li><li>Revise os campos obrigatórios e salve uma única vez.</li><li>Confirme a mensagem e verifique o resultado na tabela.</li></ol>
+    <h3>Sair com segurança</h3><p>Use o botão de saída junto ao seu nome. Fechar apenas a aba pode manter a sessão no dispositivo.</p>
+    <div class="callout tip"><strong>Dica:</strong> em telas pequenas, role a tabela horizontalmente quando houver muitas colunas.</div>
+  </section>
+
+  <section class="page" data-code="MAEXT-GERAL-ARENAEVO" data-page="8" data-total="17">
+    <header class="doc-header"><img src="assets/arenaevo-logo.webp" alt="ArenaEvo"><div>Capítulo 4<br>Visão geral</div></header>
+    <h2><span class="num">4.</span> Dashboard e indicadores</h2>
+    <p class="lead">A Visão geral apresenta um retrato rápido da operação. Está disponível para o perfil gerente.</p>
+    <div class="grid-2 small"><div class="card"><h3>Alunos ativos</h3><p>Quantidade de cadastros com status ativo na base atual.</p></div><div class="card"><h3>Receita no mês</h3><p>Soma das mensalidades pagas na competência corrente.</p></div><div class="card"><h3>Pendências</h3><p>Mensalidades em aberto na competência corrente.</p></div><div class="card"><h3>Frequência hoje</h3><p>Percentual e quantidade de presenças registradas no dia.</p></div></div>
+    <h3>Outros painéis</h3><ul><li><strong>Distribuição por modalidade:</strong> compara alunos ativos nas modalidades apresentadas.</li><li><strong>Últimas atividades:</strong> resume movimentações recentes, como cadastros, pagamentos e frequência.</li></ul>
+    <h3>Como interpretar</h3><ul class="checklist"><li>Confirme se as rotinas do dia já foram registradas antes de concluir que um número está errado.</li><li>Receita considera pagamentos marcados como pagos.</li><li>Pendência depende da competência da mensalidade.</li><li>Frequência depende da chamada salva para turma/data.</li><li>Use as áreas detalhadas para investigar cada indicador.</li></ul>
+    <div class="callout warning"><strong>Indicadores apoiam decisões, mas dependem da qualidade do cadastro.</strong> Registros incompletos ou lançados na competência errada alteram os resultados.</div>
+  </section>
+
+  <section class="page" data-code="MAEXT-GERAL-ARENAEVO" data-page="9" data-total="17">
+    <header class="doc-header"><img src="assets/arenaevo-logo.webp" alt="ArenaEvo"><div>Capítulo 5<br>Alunos</div></header>
+    <h2><span class="num">5.</span> Gestão de alunos</h2>
+    <p><span class="role">GERENTE</span> cria, edita e exclui. <span class="role">SUPERVISOR</span> consulta alunos vinculados. <span class="role">CLIENTE</span> vê o próprio cadastro.</p>
+    <h3>Novo aluno</h3>
+    <ol class="steps"><li>Abra <strong>Alunos</strong> e selecione <strong>Novo aluno</strong>.</li><li>Informe nome, observação opcional e telefone.</li><li>Escolha modalidade, turmas e horário conforme a operação.</li><li>Preencha matrícula, plano, valor, vencimento e status.</li><li>Revise e salve; depois confirme o registro na lista.</li></ol>
+    <h3>Campos importantes</h3>
+    <table class="compact"><tr><th>Campo</th><th>Uso</th></tr><tr><td>Modalidade</td><td>Classifica o aluno e apoia filtros/indicadores.</td></tr><tr><td>Turmas</td><td>Define participação e presença na chamada.</td></tr><tr><td>Plano/valor</td><td>Referência para a rotina comercial e financeira.</td></tr><tr><td>Vencimento</td><td>Dia de referência da cobrança.</td></tr><tr><td>Status</td><td>Ativo, inativo ou suspenso; afeta acompanhamento.</td></tr></table>
+    <h3>Editar ou excluir</h3><p>Use as ações da linha. Antes de excluir, verifique vínculos e histórico. Quando for necessário manter o histórico, prefira alterar o status conforme a política da organização.</p>
+    <div class="callout tip"><strong>Qualidade:</strong> padronize nomes, telefones e modalidades; evite cadastros duplicados.</div>
+  </section>
+
+  <section class="page" data-code="MAEXT-GERAL-ARENAEVO" data-page="10" data-total="17">
+    <header class="doc-header"><img src="assets/arenaevo-logo.webp" alt="ArenaEvo"><div>Capítulo 6<br>Turmas</div></header>
+    <h2><span class="num">6.</span> Turmas e matrículas</h2>
+    <p><span class="role">GERENTE</span> administra. <span class="role">SUPERVISOR</span> consulta as turmas vinculadas e seus alunos.</p>
+    <h3>Criar uma turma</h3>
+    <ol class="steps"><li>Abra <strong>Turmas</strong> e clique em <strong>Nova turma</strong>.</li><li>Escolha a modalidade e o nível/tipo.</li><li>Informe professor, dias, horário e limite de vagas.</li><li>Salve e confira a turma na grade.</li></ol>
+    <h3>Adicionar ou remover alunos</h3>
+    <ol class="steps"><li>Na linha da turma, abra <strong>Alunos</strong>.</li><li>Pesquise pelo nome quando necessário.</li><li>Use <strong>Adicionar</strong> para matricular ou <strong>Remover</strong> para desvincular.</li><li>Confira a ocupação apresentada na grade.</li></ol>
+    <h3>Boas práticas</h3><ul class="checklist"><li>Use nomes de turma consistentes, como iniciante, avançado, infantil ou mista.</li><li>Atualize professor, dias e horário sempre que a grade mudar.</li><li>Revise o limite de vagas e a ocupação antes de novas matrículas.</li><li>Antes de excluir uma turma, trate seus alunos e registros relacionados.</li></ul>
+    <div class="callout warning"><strong>Supervisor:</strong> se uma turma esperada não aparecer, solicite ao gerente a revisão do vínculo do seu acesso.</div>
+  </section>
+
+  <section class="page" data-code="MAEXT-GERAL-ARENAEVO" data-page="11" data-total="17">
+    <header class="doc-header"><img src="assets/arenaevo-logo.webp" alt="ArenaEvo"><div>Capítulo 7<br>Frequência</div></header>
+    <h2><span class="num">7.</span> Registro de frequência</h2>
+    <p><span class="role">GERENTE</span> acessa todas as turmas. <span class="role">SUPERVISOR</span> registra somente as vinculadas.</p>
+    <ol class="steps"><li>Abra <strong>Frequência</strong>.</li><li>Escolha a turma e a data correta.</li><li>Aguarde a lista de alunos matriculados.</li><li>Marque quem esteve presente; os demais ficam como ausentes ao salvar.</li><li>Selecione <strong>Salvar frequência</strong> e aguarde a confirmação.</li></ol>
+    <h3>Estados da tela</h3>
+    <table class="compact"><tr><th>Indicação</th><th>Significado</th></tr><tr><td>Pendente</td><td>A chamada ainda não possui registro completo.</td></tr><tr><td>Todos registrados</td><td>Há situação salva para todos os matriculados.</td></tr><tr><td>Presente/Ausente</td><td>Situação individual registrada.</td></tr><tr><td>Não registrado</td><td>Ainda não foi salva situação para o aluno.</td></tr></table>
+    <h3>Cuidados</h3><ul class="checklist"><li>Confirme turma e data antes de marcar.</li><li>Salve apenas uma vez e aguarde a mensagem.</li><li>Se a lista estiver vazia, confira as matrículas na turma.</li><li>Corrija a chamada assim que detectar erro, conforme sua permissão.</li></ul>
+    <div class="callout tip"><strong>Rotina recomendada:</strong> concluir a chamada logo após a aula mantém o dashboard atualizado.</div>
+  </section>
+
+  <section class="page" data-code="MAEXT-GERAL-ARENAEVO" data-page="12" data-total="17">
+    <header class="doc-header"><img src="assets/arenaevo-logo.webp" alt="ArenaEvo"><div>Capítulo 8<br>Mensalidades</div></header>
+    <h2><span class="num">8.</span> Mensalidades e pagamentos</h2>
+    <p><span class="role">GERENTE</span> lança e atualiza cobranças. <span class="role">CLIENTE</span> consulta suas próprias mensalidades.</p>
+    <h3>Lançar mensalidade</h3>
+    <ol class="steps"><li>Abra <strong>Mensalidades</strong> e escolha o mês de referência.</li><li>Selecione <strong>Nova mensalidade</strong>.</li><li>Escolha o aluno, informe valor, vencimento e observação.</li><li>Se já estiver paga, marque a opção e selecione a forma.</li><li>Salve e confirme na lista do mês.</li></ol>
+    <h3>Registrar pagamento</h3><p>Use <strong>Pagar</strong> para uma baixa rápida ou <strong>Editar</strong> para revisar data, forma e observação. Confira o nome e valor antes de confirmar.</p>
+    <h3>Entenda os campos</h3>
+    <table class="compact"><tr><th>Campo</th><th>Significado</th></tr><tr><td>Mês de referência</td><td>Competência usada nos filtros e relatórios.</td></tr><tr><td>Vencimento</td><td>Data esperada do pagamento.</td></tr><tr><td>Pago/em aberto</td><td>Situação que compõe receita ou pendência.</td></tr><tr><td>Forma</td><td>Pix, dinheiro, cartão ou boleto.</td></tr><tr><td>Histórico</td><td>Mensalidades anteriores do aluno.</td></tr></table>
+    <div class="callout warning"><strong>Antes de excluir:</strong> confirme se não é preferível corrigir o lançamento. Exclusões podem afetar históricos e indicadores.</div>
+  </section>
+
+  <section class="page" data-code="MAEXT-GERAL-ARENAEVO" data-page="13" data-total="17">
+    <header class="doc-header"><img src="assets/arenaevo-logo.webp" alt="ArenaEvo"><div>Capítulo 9<br>Financeiro</div></header>
+    <h2><span class="num">9.</span> Financeiro e despesas</h2>
+    <p class="lead">Áreas exclusivas do gerente para acompanhar receitas, custos, pendências e resultado.</p>
+    <h3>Financeiro</h3><ul><li>Escolha o mês e, se necessário, filtre modalidade e situação do pagamento.</li><li>Veja receitas pagas, despesas do período e resultado.</li><li>Consulte receita por modalidade, inadimplentes e histórico de 12 meses.</li><li>Use <strong>Recarregar</strong> após alterações importantes.</li></ul>
+    <h3>Despesas</h3>
+    <ol class="steps"><li>Abra <strong>Despesas</strong> e selecione <strong>Nova despesa</strong>.</li><li>Informe data, descrição, categoria e valor.</li><li>Salve e confira o total do período.</li><li>Edite ou exclua somente após validar documento e competência.</li></ol>
+    <h3>Categorias disponíveis</h3><p>Aluguel, água, luz, internet, material, professor e outros.</p>
+    <h3>Conferência mensal</h3><ul class="checklist"><li>mensalidades pagas corretamente baixadas;</li><li>pendências analisadas;</li><li>despesas lançadas no mês e categoria corretos;</li><li>resultado comparado a documentos de apoio;</li><li>ajustes realizados antes do fechamento interno.</li></ul>
+    <div class="callout"><strong>Observação:</strong> o ArenaEvo organiza registros operacionais. Procedimentos fiscais, contábeis e de cobrança seguem as regras da sua organização e profissionais responsáveis.</div>
+  </section>
+
+  <section class="page" data-code="MAEXT-GERAL-ARENAEVO" data-page="14" data-total="17">
+    <header class="doc-header"><img src="assets/arenaevo-logo.webp" alt="ArenaEvo"><div>Capítulo 10<br>Supervisor</div></header>
+    <h2><span class="num">10.</span> Rotina do supervisor</h2>
+    <p class="lead">O supervisor trabalha dentro das turmas atribuídas pelo gerente, protegendo informações que não precisa acessar.</p>
+    <h3>Início da rotina</h3><ol class="steps"><li>Entre pelo link da organização.</li><li>Abra <strong>Turmas</strong> e confira sua grade.</li><li>Entre em <strong>Alunos</strong> para consultar os vinculados.</li><li>No horário da aula, abra <strong>Frequência</strong>.</li><li>Selecione turma/data, faça a chamada e salve.</li></ol>
+    <h3>O que o supervisor pode fazer</h3><ul class="checklist"><li>ver detalhes das turmas atribuídas;</li><li>ver os alunos dessas turmas;</li><li>acompanhar ocupação;</li><li>registrar e corrigir frequência das turmas permitidas.</li></ul>
+    <h3>O que solicitar ao gerente</h3><ul><li>inclusão/remoção de turma no seu acesso;</li><li>cadastro, alteração ou exclusão de aluno;</li><li>criação/alteração de turma;</li><li>qualquer informação financeira ou administrativa.</li></ul>
+    <div class="callout warning"><strong>Se uma turma não aparecer:</strong> confirme primeiro se está no link correto e, depois, peça ao gerente que revise seu vínculo. Não compartilhe conta para contornar a restrição.</div>
+  </section>
+
+  <section class="page" data-code="MAEXT-GERAL-ARENAEVO" data-page="15" data-total="17">
+    <header class="doc-header"><img src="assets/arenaevo-logo.webp" alt="ArenaEvo"><div>Capítulo 11<br>Cliente/aluno</div></header>
+    <h2><span class="num">11.</span> Área do cliente ou aluno</h2>
+    <p class="lead">Um espaço de consulta individual. Cada conta é vinculada a um único cadastro de aluno.</p>
+    <h3>Meus dados</h3><p>Consulte nome, contato, modalidade, turmas, horário, matrícula, plano, valor, vencimento e situação disponíveis no cadastro.</p>
+    <h3>Minhas mensalidades</h3><p>Veja competência, vencimento, valor, status, data e forma de pagamento quando registradas.</p>
+    <h3>Quando encontrar divergência</h3>
+    <ol class="steps"><li>Não altere endereço, link ou tente abrir outro cadastro.</li><li>Anote a área e o dado que parece incorreto — sem copiar informações desnecessárias.</li><li>Comunique o atendimento/gerente da sua organização.</li><li>Se aparecer informação de outra pessoa, saia imediatamente e relate como prioridade.</li></ol>
+    <h3>Privacidade</h3><ul class="checklist"><li>Use somente sua conta.</li><li>Não compartilhe capturas com dados pessoais/financeiros.</li><li>Saia ao terminar em dispositivo compartilhado.</li><li>Comunique perda de acesso ou suspeita de uso indevido.</li></ul>
+    <div class="callout"><strong>Atualizações:</strong> solicitações de correção cadastral ou financeira são tratadas pela organização responsável pelo seu cadastro.</div>
+  </section>
+
+  <section class="page" data-code="MAEXT-GERAL-ARENAEVO" data-page="16" data-total="17">
+    <header class="doc-header"><img src="assets/arenaevo-logo.webp" alt="ArenaEvo"><div>Capítulo 12<br>Segurança e ajuda</div></header>
+    <h2><span class="num">12.</span> Segurança, boas práticas e suporte</h2>
+    <h3>Proteja sua conta</h3><ul class="checklist"><li>use senha exclusiva e difícil de adivinhar;</li><li>não compartilhe usuário/senha;</li><li>evite salvar senha em dispositivo público;</li><li>confira o endereço e a marca antes do login;</li><li>use <strong>Sair</strong> ao finalizar;</li><li>comunique suspeitas e desligamentos imediatamente.</li></ul>
+    <h3>Antes de pedir ajuda</h3>
+    <table class="compact"><tr><th>Problema</th><th>Verifique</th></tr><tr><td>Não entra</td><td>Link, usuário, Caps Lock, conexão e status com gerente.</td></tr><tr><td>Opção não aparece</td><td>Perfil e permissões esperadas.</td></tr><tr><td>Turma/aluno ausente</td><td>Filtros, matrícula e vínculo do supervisor.</td></tr><tr><td>Indicador diferente</td><td>Mês, pagamentos, frequência, status e lançamentos.</td></tr><tr><td>Tela não atualizou</td><td>Aguarde o salvamento e use recarregar uma vez.</td></tr></table>
+    <h3>Como abrir um bom chamado</h3><p>Informe organização, seu usuário (nunca a senha), data/hora, área, ação realizada, resultado esperado, mensagem exibida e dispositivo/navegador. Envie captura somente se não expuser dados desnecessários.</p>
+    <h3>Prioridade</h3><p>Acesso a dado de outra pessoa/organização, suspeita de invasão, perda de dados ou indisponibilidade geral devem ser reportados imediatamente pelo canal oficial.</p>
+    <div class="callout danger"><strong>O suporte nunca deve pedir sua senha.</strong></div>
+  </section>
+
+  <section class="page" data-code="MAEXT-GERAL-ARENAEVO" data-page="17" data-total="17">
+    <header class="doc-header"><img src="assets/arenaevo-logo.webp" alt="ArenaEvo"><div>Capítulo 13<br>Rotinas rápidas</div></header>
+    <h2><span class="num">13.</span> Checklists do dia a dia</h2>
+    <div class="grid-2 small"><div class="card"><h3>Abertura — gerente</h3><ul class="checklist"><li>ver dashboard</li><li>revisar pendências</li><li>confirmar grade/turmas</li><li>tratar avisos de acesso</li></ul></div><div class="card"><h3>Nova matrícula</h3><ul class="checklist"><li>evitar duplicidade</li><li>cadastrar aluno</li><li>vincular turma</li><li>lançar mensalidade</li></ul></div><div class="card"><h3>Após a aula</h3><ul class="checklist"><li>selecionar turma/data</li><li>marcar presença</li><li>salvar</li><li>confirmar status</li></ul></div><div class="card"><h3>Fechamento do mês</h3><ul class="checklist"><li>baixar pagamentos</li><li>revisar inadimplentes</li><li>lançar despesas</li><li>conferir resultado</li></ul></div><div class="card"><h3>Supervisor</h3><ul class="checklist"><li>conferir turmas</li><li>consultar alunos</li><li>registrar chamada</li><li>relatar divergência</li></ul></div><div class="card"><h3>Cliente/aluno</h3><ul class="checklist"><li>usar link correto</li><li>consultar dados</li><li>ver mensalidades</li><li>sair com segurança</li></ul></div></div>
+    <h3>Regra de ouro</h3><p class="lead">Cadastre com qualidade, registre a rotina no momento certo, confira antes de excluir e use somente as informações necessárias ao seu trabalho.</p>
+    <div class="callout"><strong>Precisa de ajuda?</strong> Procure primeiro o gerente ou atendimento da sua organização e utilize o canal oficial de suporte informado no seu onboarding.</div>
+  </section>
+</body>
+</html>
