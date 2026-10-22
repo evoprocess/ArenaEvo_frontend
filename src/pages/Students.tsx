@@ -3,6 +3,7 @@ import type { FormEvent } from 'react';
 import { useOrganization } from '../contexts/OrganizationContext';
 import { useAuth } from '../contexts/AuthContext';
 import { createStudent, deleteStudent, loadClasses, loadStudents, updateStudent } from '../lib/data';
+import { formatStudentName } from '../lib/student';
 import type { ClassGroup, Student } from '../types';
 import { Feedback, Loading, ManagementModal, formatMoney, todayInput } from '../components/Management';
 
@@ -35,7 +36,7 @@ export function Students() {
   }, [organization, profile]);
 
   const filtered = useMemo(() => students.filter((student) =>
-    (!filters.search || student.nome.toLowerCase().includes(filters.search.toLowerCase())) &&
+    (!filters.search || formatStudentName(student).toLowerCase().includes(filters.search.toLowerCase())) &&
     (!filters.modalidade || student.modalidade === filters.modalidade) &&
     (!filters.turma || student.turmas.includes(filters.turma)) &&
     (!filters.status || student.status === filters.status),
@@ -64,7 +65,7 @@ export function Students() {
   };
 
   const remove = async (student: Student) => {
-    if (!organization || !student.id || !window.confirm(`Excluir ${student.nome}?`)) return;
+    if (!organization || !student.id || !window.confirm(`Excluir ${formatStudentName(student)}?`)) return;
     try { await deleteStudent(organization.orgId, student.id); await refresh(); }
     catch { setError('Não foi possível excluir o aluno.'); }
   };
@@ -84,7 +85,7 @@ export function Students() {
         <select value={filters.status} onChange={(e) => setFilters({ ...filters, status: e.target.value })}><option value="">Todos os status</option><option value="ativo">Ativo</option><option value="inativo">Inativo</option><option value="suspenso">Suspenso</option></select>
       </div>
       <Feedback message={error} />
-      {loading ? <Loading label="Carregando alunos…" /> : <div className="responsive-table"><table><thead><tr><th>Aluno</th><th>Modalidade</th><th>Turmas</th><th>Plano</th><th>Valor</th><th>Venc.</th><th>Status</th>{canManage && <th>Ações</th>}</tr></thead><tbody>{filtered.map((student) => <tr key={student.id}><td><strong>{student.nome}</strong><small className="cell-note">{student.observacao ? `${student.observacao} · ` : ''}{student.telefone || 'Sem telefone'}</small></td><td>{student.modalidade}</td><td><div className="tag-list">{student.turmas.length ? student.turmas.map((id) => <span className="data-tag" key={id}>{className(id)}</span>) : '—'}</div></td><td>{student.plano}</td><td>{formatMoney(student.valor)}</td><td>Dia {student.vencimento}</td><td><span className={`status-pill ${student.status}`}>{student.status}</span></td>{canManage && <td><div className="row-actions"><button onClick={() => openForm(student)}>Editar</button><button className="danger" onClick={() => remove(student)}>Excluir</button></div></td>}</tr>)}</tbody></table>{!filtered.length && <div className="empty-table">Nenhum aluno encontrado.</div>}</div>}
+      {loading ? <Loading label="Carregando alunos…" /> : <div className="responsive-table"><table><thead><tr><th>Aluno</th><th>Modalidade</th><th>Turmas</th><th>Plano</th><th>Valor</th><th>Venc.</th><th>Status</th>{canManage && <th>Ações</th>}</tr></thead><tbody>{filtered.map((student) => <tr key={student.id}><td><strong title={formatStudentName(student)}>{formatStudentName(student)}</strong><small className="cell-note">{student.telefone || 'Sem telefone'}</small></td><td>{student.modalidade}</td><td><div className="tag-list">{student.turmas.length ? student.turmas.map((id) => <span className="data-tag" key={id}>{className(id)}</span>) : '—'}</div></td><td>{student.plano}</td><td>{formatMoney(student.valor)}</td><td>Dia {student.vencimento}</td><td><span className={`status-pill ${student.status}`}>{student.status}</span></td>{canManage && <td><div className="row-actions"><button onClick={() => openForm(student)}>Editar</button><button className="danger" onClick={() => remove(student)}>Excluir</button></div></td>}</tr>)}</tbody></table>{!filtered.length && <div className="empty-table">Nenhum aluno encontrado.</div>}</div>}
       {formOpen && editing && <ManagementModal title={editing.id ? 'Editar aluno' : 'Novo aluno'} onClose={() => setFormOpen(false)} wide><form className="management-form form-grid" onSubmit={submit}>
         <label className="span-2">Nome<input name="nome" required defaultValue={editing.nome} /></label><label>Observação<input name="observacao" placeholder="Ex.: responsável" defaultValue={editing.observacao} /></label><label>Telefone<input name="telefone" required defaultValue={editing.telefone} /></label><label>Modalidade<select name="modalidade" required defaultValue={editing.modalidade}><option value="">Selecione</option>{organization?.modalities.map((item) => <option key={item} value={item.toLowerCase().replaceAll(' ', '-')}>{item}</option>)}</select></label>
         <label className="span-2">Turmas<select name="turmas" multiple required defaultValue={editing.turmas}>{classes.map((item) => <option key={item.id} value={item.id}>{item.modalidade} {item.turma} — {item.professor}</option>)}</select><small>Use Ctrl/Cmd para selecionar mais de uma.</small></label><label>Horário<input name="horario" required placeholder="19:00" defaultValue={editing.horario} /></label><label>Data de matrícula<input name="dataMatricula" type="date" required defaultValue={editing.dataMatricula} /></label>

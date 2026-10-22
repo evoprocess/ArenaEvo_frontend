@@ -12,6 +12,7 @@ import {
 } from 'firebase/firestore';
 import { db } from './firebase';
 import { tenantCollectionPath } from './tenant';
+import { formatStudentName } from './student';
 import type {
   Attendance,
   ClassGroup,
@@ -174,7 +175,8 @@ export const loadFinancialData = async (
   modality?: string,
   paymentStatus?: 'pagos' | 'nao-pagos',
 ) => {
-  const [allPayments, allExpenses] = await Promise.all([loadPayments(orgId), loadExpenses(orgId)]);
+  const [allPayments, allExpenses, students] = await Promise.all([loadPayments(orgId), loadExpenses(orgId), loadStudents(orgId)]);
+  const studentsById = new Map(students.map((student) => [student.id, student]));
   const matches = (payment: Payment) =>
     (!modality || payment.modalidade === modality) &&
     (!paymentStatus || (paymentStatus === 'pagos' ? payment.pago : !payment.pago));
@@ -205,9 +207,12 @@ export const loadFinancialData = async (
       }, {}),
   ).map(([name, value]) => ({ name, value }));
 
-  const overdue = allPayments.filter(
-    (item) => item.mesReferencia === selectedMonth && !item.pago && (!modality || item.modalidade === modality),
-  );
+  const overdue = allPayments
+    .filter((item) => item.mesReferencia === selectedMonth && !item.pago && (!modality || item.modalidade === modality))
+    .map((item) => ({
+      ...item,
+      alunoNomeExibicao: formatStudentName(studentsById.get(item.alunoId)) || item.alunoNome,
+    }));
 
   return { summary: summarize(selectedMonth), history, byModality, overdue };
 };
@@ -221,19 +226,20 @@ export const loadDashboardMetrics = async (orgId: string): Promise<DashboardMetr
   const month = monthKey();
   const today = new Date().toISOString().slice(0, 10);
   const todayAttendance = attendance.filter((item) => item.data === today);
+  const studentsById = new Map(students.map((student) => [student.id, student]));
   const modalities = ['jiu-jitsu', 'mma', 'boxe', 'muay-thai'];
   const recentActivities = [
     ...payments.filter((item) => item.pago).map((item) => ({
       date: item.dataPagamento || item.updatedAt || item.createdAt || item.vencimento,
-      text: `${item.alunoNome} pagou mensalidade (${item.modalidade || 'sem modalidade'})`,
+      text: `${formatStudentName(studentsById.get(item.alunoId)) || item.alunoNome} pagou mensalidade (${item.modalidade || 'sem modalidade'})`,
     })),
     ...students.map((item) => ({
       date: item.createdAt || item.dataMatricula,
-      text: `Novo aluno: ${item.nome} (${item.modalidade})`,
+      text: `Novo aluno: ${formatStudentName(item)} (${item.modalidade})`,
     })),
     ...attendance.map((item) => ({
       date: item.updatedAt || item.createdAt || item.data,
-      text: `Frequência registrada para ${item.nome}`,
+      text: `Frequência registrada para ${formatStudentName(studentsById.get(item.alunoId)) || item.nome}`,
     })),
   ].sort((a, b) => String(b.date).localeCompare(String(a.date))).slice(0, 5).map((item) => item.text);
   return {
